@@ -351,18 +351,20 @@
             <p>Thank you for applying — we'll review your application and be in touch shortly. For urgent inquiries call <strong>(713) 777-9969</strong>.</p>
           </div>
           <form class="lead-modal__form" id="career-modal-form" novalidate>
+
             <div class="form__row">
               <div class="form__group">
-                <label for="cm-name">Full Name <span class="form__required" aria-hidden="true">*</span></label>
-                <input type="text" id="cm-name" name="name" class="form__input" placeholder="Jane Smith" required autocomplete="name" />
+                <label for="cm-firstname">First Name <span class="form__required" aria-hidden="true">*</span></label>
+                <input type="text" id="cm-firstname" name="firstname" class="form__input" placeholder="Jane" required autocomplete="given-name" />
                 <div class="form__error" aria-live="polite"></div>
               </div>
               <div class="form__group">
-                <label for="cm-location">What area are you from? <span class="form__required" aria-hidden="true">*</span></label>
-                <input type="text" id="cm-location" name="location" class="form__input" placeholder="e.g. Greater Houston Area" required />
+                <label for="cm-lastname">Last Name <span class="form__required" aria-hidden="true">*</span></label>
+                <input type="text" id="cm-lastname" name="lastname" class="form__input" placeholder="Smith" required autocomplete="family-name" />
                 <div class="form__error" aria-live="polite"></div>
               </div>
             </div>
+
             <div class="form__row">
               <div class="form__group">
                 <label for="cm-email">Email Address <span class="form__required" aria-hidden="true">*</span></label>
@@ -375,32 +377,79 @@
                 <div class="form__error" aria-live="polite"></div>
               </div>
             </div>
+
+            <div class="form__group">
+              <label for="cm-role">Position Applying For <span class="form__required" aria-hidden="true">*</span></label>
+              <select id="cm-role" name="role" class="form__select" required>
+                <option value="">— Select a position —</option>
+                <option value="LVN">LVN</option>
+                <option value="CNA">CNA</option>
+                <option value="RN">RN</option>
+                <option value="Medical Technician">Medical Technician</option>
+                <option value="Administrative Assistant">Administrative Assistant</option>
+                <option value="Staffing Coordinator">Staffing Coordinator</option>
+              </select>
+              <div class="form__error" aria-live="polite"></div>
+            </div>
+
+            <div class="form__group">
+              <p style="margin:0 0 12px;font-size:14px;font-weight:600;color:#1e293b;">Do you have the required license or certification for the position you are applying for? <span class="form__required" aria-hidden="true">*</span></p>
+              <div style="display:flex;gap:12px;" id="cm-licensed-group">
+                <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;"><input type="radio" name="licensed" value="Yes" required /> Yes</label>
+                <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;"><input type="radio" name="licensed" value="No" /> No</label>
+              </div>
+              <div class="form__error" id="cm-licensed-error" aria-live="polite"></div>
+            </div>
+
+            <div class="form__group">
+              <p style="margin:0 0 12px;font-size:14px;font-weight:600;color:#1e293b;">Are you willing to undergo a background check, in accordance with local law/regulations? <span class="form__required" aria-hidden="true">*</span></p>
+              <div style="display:flex;gap:12px;" id="cm-bgcheck-group">
+                <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;"><input type="radio" name="bgcheck" value="Yes" required /> Yes</label>
+                <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;"><input type="radio" name="bgcheck" value="No" /> No</label>
+              </div>
+              <div class="form__error" id="cm-bgcheck-error" aria-live="polite"></div>
+            </div>
+
+            <div class="form__group">
+              <p style="margin:0 0 12px;font-size:14px;font-weight:600;color:#1e293b;">Are you willing to take a drug test, in accordance with local law/regulations? <span class="form__required" aria-hidden="true">*</span></p>
+              <div style="display:flex;gap:12px;" id="cm-drugtest-group">
+                <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;"><input type="radio" name="drugtest" value="Yes" required /> Yes</label>
+                <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;"><input type="radio" name="drugtest" value="No" /> No</label>
+              </div>
+              <div class="form__error" id="cm-drugtest-error" aria-live="polite"></div>
+            </div>
+
+            <div class="form__group">
+              <p style="margin:0 0 12px;font-size:14px;font-weight:600;color:#1e293b;">Are you legally authorized to work in the United States? <span class="form__required" aria-hidden="true">*</span></p>
+              <div style="display:flex;gap:12px;" id="cm-workauth-group">
+                <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;"><input type="radio" name="workauth" value="Yes" required /> Yes</label>
+                <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;"><input type="radio" name="workauth" value="No" /> No</label>
+              </div>
+              <div class="form__error" id="cm-workauth-error" aria-live="polite"></div>
+            </div>
+
+            <div class="form__group">
+              <p style="margin:0 0 12px;font-size:14px;font-weight:600;color:#1e293b;">Will you now, or in the future, require sponsorship for employment visa status (e.g. H-1B)? <span class="form__required" aria-hidden="true">*</span></p>
+              <div style="display:flex;gap:12px;" id="cm-sponsorship-group">
+                <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;"><input type="radio" name="sponsorship" value="Yes" required /> Yes</label>
+                <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;"><input type="radio" name="sponsorship" value="No" /> No</label>
+              </div>
+              <div class="form__error" id="cm-sponsorship-error" aria-live="polite"></div>
+            </div>
+
             <div class="form__row">
               <div class="form__group">
-                <label for="cm-role">Role Applying For <span class="form__required" aria-hidden="true">*</span></label>
-                <select id="cm-role" name="role" class="form__select" required>
-                  <option value="">— Select a role —</option>
-                  <option value="Registered Nurse (RN)">Registered Nurse (RN)</option>
-                  <option value="Licensed Vocational Nurse (LVN)">Licensed Vocational Nurse (LVN)</option>
-                  <option value="Certified Nursing Assistant (CNA)">Certified Nursing Assistant (CNA)</option>
-                  <option value="Caregiver">Caregiver</option>
-                  <option value="Other / Not Sure">Other / Not Sure</option>
-                </select>
+                <label for="cm-experience">Years of experience in this position <span class="form__required" aria-hidden="true">*</span></label>
+                <input type="number" id="cm-experience" name="experience" class="form__input" placeholder="e.g. 3" min="0" max="50" required />
                 <div class="form__error" aria-live="polite"></div>
               </div>
               <div class="form__group">
-                <label for="cm-experience">Years of Experience <span class="form__required" aria-hidden="true">*</span></label>
-                <select id="cm-experience" name="experience" class="form__select" required>
-                  <option value="">— Select —</option>
-                  <option value="Less than 1 year">Less than 1 year</option>
-                  <option value="1–2 years">1–2 years</option>
-                  <option value="3–5 years">3–5 years</option>
-                  <option value="6–10 years">6–10 years</option>
-                  <option value="10+ years">10+ years</option>
-                </select>
+                <label for="cm-startdate">Preferred Start Date <span class="form__required" aria-hidden="true">*</span></label>
+                <input type="date" id="cm-startdate" name="startdate" class="form__input" required />
                 <div class="form__error" aria-live="polite"></div>
               </div>
             </div>
+
             <div class="form__group">
               <label for="cm-resume">Resume <span class="form__required" aria-hidden="true">*</span></label>
               <div id="cm-resume-dropzone" style="border:2px dashed #cbd5e1;border-radius:8px;padding:20px 16px;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;background:#f8fafc;">
@@ -411,9 +460,10 @@
               </div>
               <div class="form__error" id="cm-resume-error" aria-live="polite"></div>
             </div>
+
             <div class="lead-modal__submit-row">
               <button type="submit" class="btn btn--primary" id="career-modal-submit">Submit Application</button>
-              <p class="lead-modal__disclaimer">Your resume is only used to evaluate your application.</p>
+              <p class="lead-modal__disclaimer">Your information is only used to evaluate your application.</p>
             </div>
           </form>
         </div>
@@ -430,6 +480,25 @@
     var resumeDropzone = document.getElementById('cm-resume-dropzone');
     var resumeLabel = document.getElementById('cm-resume-label');
     var resumeError = document.getElementById('cm-resume-error');
+
+    var radioGroups = [
+      { name: 'licensed',    errorId: 'cm-licensed-error' },
+      { name: 'bgcheck',     errorId: 'cm-bgcheck-error' },
+      { name: 'drugtest',    errorId: 'cm-drugtest-error' },
+      { name: 'workauth',    errorId: 'cm-workauth-error' },
+      { name: 'sponsorship', errorId: 'cm-sponsorship-error' }
+    ];
+
+    function validateRadioGroup(name, errorId) {
+      var selected = form.querySelector('input[name="' + name + '"]:checked');
+      var errorEl = document.getElementById(errorId);
+      if (!selected) {
+        if (errorEl) { errorEl.textContent = 'Please select an option.'; errorEl.style.display = 'block'; }
+        return false;
+      }
+      if (errorEl) { errorEl.textContent = ''; errorEl.style.display = 'none'; }
+      return true;
+    }
 
     // Dropzone click opens file picker
     resumeDropzone.addEventListener('click', function () { resumeInput.click(); });
@@ -533,6 +602,10 @@
       resumeDropzone.style.background = '#f8fafc';
       resumeError.textContent = '';
       resumeError.style.display = 'none';
+      radioGroups.forEach(function (g) {
+        var el = document.getElementById(g.errorId);
+        if (el) { el.textContent = ''; el.style.display = 'none'; }
+      });
       overlay.classList.add('is-open');
       document.body.style.overflow = 'hidden';
       setTimeout(function () { closeBtn.focus(); }, 50);
@@ -547,8 +620,12 @@
       e.preventDefault();
 
       var allValid = true;
-      form.querySelectorAll('input:not([type="file"])[required], select[required]').forEach(function (field) {
+      form.querySelectorAll('input:not([type="file"]):not([type="radio"])[required], select[required]').forEach(function (field) {
         if (!validateCareerField(field)) allValid = false;
+      });
+
+      radioGroups.forEach(function (g) {
+        if (!validateRadioGroup(g.name, g.errorId)) allValid = false;
       });
 
       // Validate resume
@@ -572,16 +649,21 @@
 
       var reader = new FileReader();
       reader.onload = function (ev) {
-        // Strip the data URL prefix to get raw base64
         var base64 = ev.target.result.split(',')[1];
 
         var payload = {
-          name:            form.elements['name'].value.trim(),
+          firstname:       form.elements['firstname'].value.trim(),
+          lastname:        form.elements['lastname'].value.trim(),
           email:           form.elements['email'].value.trim(),
           phone:           form.elements['phone'].value.trim(),
-          location:        form.elements['location'].value.trim(),
           role:            form.elements['role'].value,
+          licensed:        form.querySelector('input[name="licensed"]:checked').value,
+          bgcheck:         form.querySelector('input[name="bgcheck"]:checked').value,
+          drugtest:        form.querySelector('input[name="drugtest"]:checked').value,
+          workauth:        form.querySelector('input[name="workauth"]:checked').value,
+          sponsorship:     form.querySelector('input[name="sponsorship"]:checked').value,
           experience:      form.elements['experience'].value,
+          startdate:       form.elements['startdate'].value,
           resume_filename: file.name,
           resume_content:  base64,
           submitted_at:    new Date().toISOString(),

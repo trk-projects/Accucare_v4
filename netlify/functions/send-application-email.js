@@ -19,15 +19,28 @@ exports.handler = async (event) => {
     return { statusCode: 500, headers: corsHeaders, body: JSON.stringify({ error: 'RESEND_API_KEY not configured.' }) };
   }
 
-  const { name, email, phone, location, role, experience, resume_filename, resume_content, submitted_at, source_page } = JSON.parse(event.body || '{}');
+  const { firstname, lastname, email, phone, role, licensed, bgcheck, drugtest, workauth, sponsorship, experience, startdate, resume_filename, resume_content, submitted_at, source_page } = JSON.parse(event.body || '{}');
+
+  const fullName = [firstname, lastname].filter(Boolean).join(' ') || '—';
 
   const submittedFormatted = submitted_at
     ? new Date(submitted_at).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true })
     : '—';
 
+  const startFormatted = startdate
+    ? new Date(startdate + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    : '—';
+
+  function yesNo(val) {
+    if (!val) return '—';
+    return val === 'Yes'
+      ? '<span style="color:#16a34a;font-weight:700;">Yes</span>'
+      : '<span style="color:#dc2626;font-weight:700;">No</span>';
+  }
+
   const html = `
   <div style="background:#f0f2f5;padding:32px 16px;font-family:'Helvetica Neue',Arial,sans-serif;">
-    <div style="max-width:580px;margin:0 auto;">
+    <div style="max-width:600px;margin:0 auto;">
 
       <div style="background:linear-gradient(135deg,#0E7C7B 0%,#14a89f 100%);border-radius:12px 12px 0 0;padding:32px 36px;">
         <p style="margin:0 0 6px;font-size:12px;font-weight:600;letter-spacing:1.5px;color:rgba(255,255,255,0.6);text-transform:uppercase;">Accucare Nurse Staffing</p>
@@ -42,16 +55,16 @@ exports.handler = async (event) => {
 
       <div style="background:#ffffff;padding:36px;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;">
 
-        <p style="margin:0 0 16px;font-size:11px;font-weight:700;letter-spacing:1.2px;color:#94a3b8;text-transform:uppercase;">Applicant Information</p>
+        <p style="margin:0 0 16px;font-size:11px;font-weight:700;letter-spacing:1.2px;color:#94a3b8;text-transform:uppercase;">Contact Information</p>
         <table style="width:100%;border-collapse:collapse;margin-bottom:28px;">
           <tr>
             <td style="padding:12px 16px;background:#f8fafc;border-radius:8px 8px 0 0;border-bottom:1px solid #e2e8f0;width:50%;">
-              <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">Name</p>
-              <p style="margin:4px 0 0;font-size:15px;font-weight:600;color:#1e293b;">${name || '—'}</p>
+              <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">Full Name</p>
+              <p style="margin:4px 0 0;font-size:15px;font-weight:600;color:#1e293b;">${fullName}</p>
             </td>
             <td style="padding:12px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;border-left:1px solid #e2e8f0;">
-              <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">Location</p>
-              <p style="margin:4px 0 0;font-size:15px;font-weight:600;color:#1e293b;">${location || '—'}</p>
+              <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">Position Applied For</p>
+              <p style="margin:4px 0 0;font-size:15px;font-weight:600;color:#1e293b;">${role || '—'}</p>
             </td>
           </tr>
           <tr>
@@ -65,14 +78,48 @@ exports.handler = async (event) => {
             </td>
           </tr>
           <tr>
-            <td style="padding:12px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;border-radius:0 0 0 8px;">
-              <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">Role Applied For</p>
-              <p style="margin:4px 0 0;font-size:15px;font-weight:600;color:#1e293b;">${role || '—'}</p>
-            </td>
-            <td style="padding:12px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;border-left:1px solid #e2e8f0;border-radius:0 0 8px 0;">
-              <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">Experience</p>
+            <td style="padding:12px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;">
+              <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">Years of Experience</p>
               <p style="margin:4px 0 0;font-size:15px;font-weight:600;color:#1e293b;">${experience || '—'}</p>
             </td>
+            <td style="padding:12px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;border-left:1px solid #e2e8f0;">
+              <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">Preferred Start Date</p>
+              <p style="margin:4px 0 0;font-size:15px;font-weight:600;color:#1e293b;">${startFormatted}</p>
+            </td>
+          </tr>
+        </table>
+
+        <p style="margin:0 0 16px;font-size:11px;font-weight:700;letter-spacing:1.2px;color:#94a3b8;text-transform:uppercase;">Eligibility Questions</p>
+        <table style="width:100%;border-collapse:collapse;margin-bottom:28px;">
+          <tr>
+            <td style="padding:11px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;width:75%;">
+              <p style="margin:0;font-size:13px;color:#334155;">Has required license/certification for the position</p>
+            </td>
+            <td style="padding:11px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;border-left:1px solid #e2e8f0;text-align:center;">${yesNo(licensed)}</td>
+          </tr>
+          <tr>
+            <td style="padding:11px 16px;background:#fff;border-bottom:1px solid #e2e8f0;">
+              <p style="margin:0;font-size:13px;color:#334155;">Willing to undergo a background check</p>
+            </td>
+            <td style="padding:11px 16px;background:#fff;border-bottom:1px solid #e2e8f0;border-left:1px solid #e2e8f0;text-align:center;">${yesNo(bgcheck)}</td>
+          </tr>
+          <tr>
+            <td style="padding:11px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;">
+              <p style="margin:0;font-size:13px;color:#334155;">Willing to take a drug test</p>
+            </td>
+            <td style="padding:11px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;border-left:1px solid #e2e8f0;text-align:center;">${yesNo(drugtest)}</td>
+          </tr>
+          <tr>
+            <td style="padding:11px 16px;background:#fff;border-bottom:1px solid #e2e8f0;">
+              <p style="margin:0;font-size:13px;color:#334155;">Legally authorized to work in the United States</p>
+            </td>
+            <td style="padding:11px 16px;background:#fff;border-bottom:1px solid #e2e8f0;border-left:1px solid #e2e8f0;text-align:center;">${yesNo(workauth)}</td>
+          </tr>
+          <tr>
+            <td style="padding:11px 16px;background:#f8fafc;border-radius:0 0 0 8px;">
+              <p style="margin:0;font-size:13px;color:#334155;">Will require visa sponsorship (now or in the future)</p>
+            </td>
+            <td style="padding:11px 16px;background:#f8fafc;border-left:1px solid #e2e8f0;border-radius:0 0 8px 0;text-align:center;">${yesNo(sponsorship)}</td>
           </tr>
         </table>
 
@@ -84,8 +131,8 @@ exports.handler = async (event) => {
         ` : ''}
 
         <div style="text-align:center;margin-top:8px;">
-          <a href="mailto:${email}?subject=Re: Your Application at Accucare Nurse Staffing" style="display:inline-block;background:linear-gradient(135deg,#0E7C7B,#14a89f);color:#ffffff;font-size:14px;font-weight:700;text-decoration:none;padding:14px 28px;border-radius:8px;letter-spacing:0.5px;margin:4px;">Reply to ${name ? name.split(' ')[0] : 'Applicant'}</a>
-          <a href="tel:${phone}" style="display:inline-block;background:#ffffff;color:#0E7C7B;font-size:14px;font-weight:700;text-decoration:none;padding:14px 28px;border-radius:8px;letter-spacing:0.5px;margin:4px;border:2px solid #0E7C7B;">Call ${name ? name.split(' ')[0] : 'Applicant'}</a>
+          <a href="mailto:${email}?subject=Re: Your Application at Accucare Nurse Staffing" style="display:inline-block;background:linear-gradient(135deg,#0E7C7B,#14a89f);color:#ffffff;font-size:14px;font-weight:700;text-decoration:none;padding:14px 28px;border-radius:8px;letter-spacing:0.5px;margin:4px;">Reply to ${firstname || 'Applicant'}</a>
+          <a href="tel:${phone}" style="display:inline-block;background:#ffffff;color:#0E7C7B;font-size:14px;font-weight:700;text-decoration:none;padding:14px 28px;border-radius:8px;letter-spacing:0.5px;margin:4px;border:2px solid #0E7C7B;">Call ${firstname || 'Applicant'}</a>
         </div>
 
       </div>

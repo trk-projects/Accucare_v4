@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls /Users/tanushkunam/website-agent-system/accucare/*.html)",
+      "Bash(open -a Safari /Users/tanushkunam/website-agent-system/accucare/index.html)",
+      "Bash(open -a Safari /Users/tanushkunam/website-agent-system/accucare/services.html)"
+    ]
+  }
+}

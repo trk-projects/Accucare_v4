@@ -12,6 +12,7 @@
    * ---------------------------------------------------------------- */
   var POWER_AUTOMATE_WEBHOOK = 'YOUR_POWER_AUTOMATE_WEBHOOK_URL_HERE';
   var SEND_LEAD_API = '/.netlify/functions/send-lead-email';
+  var SEND_APPLICATION_API = '/.netlify/functions/send-application-email';
 
   /* --- Lead Capture Modal --- */
   function initLeadModal() {
@@ -321,6 +322,298 @@
     }
   }
 
+  /* --- Career Application Modal --- */
+  function initCareerModal() {
+    var overlay = document.createElement('div');
+    overlay.className = 'lead-modal-overlay';
+    overlay.id = 'career-modal-overlay';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-labelledby', 'career-modal-title');
+
+    overlay.innerHTML = `
+      <div class="lead-modal" id="career-modal">
+        <div class="lead-modal__header">
+          <div class="lead-modal__header-text">
+            <h2 id="career-modal-title">Apply to Join Accucare</h2>
+            <p>Fill out the form and we'll follow up to schedule your onboarding.</p>
+          </div>
+          <button class="lead-modal__close" id="career-modal-close" aria-label="Close form">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="lead-modal__body">
+          <div class="lead-modal__success" id="career-modal-success" style="display:none;">
+            <div class="lead-modal__success-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h3>Application Received!</h3>
+            <p>Thank you for applying — we'll review your application and be in touch shortly. For urgent inquiries call <strong>(713) 777-9969</strong>.</p>
+          </div>
+          <form class="lead-modal__form" id="career-modal-form" novalidate>
+            <div class="form__row">
+              <div class="form__group">
+                <label for="cm-name">Full Name <span class="form__required" aria-hidden="true">*</span></label>
+                <input type="text" id="cm-name" name="name" class="form__input" placeholder="Jane Smith" required autocomplete="name" />
+                <div class="form__error" aria-live="polite"></div>
+              </div>
+              <div class="form__group">
+                <label for="cm-location">City / State <span class="form__required" aria-hidden="true">*</span></label>
+                <input type="text" id="cm-location" name="location" class="form__input" placeholder="Houston, TX" required />
+                <div class="form__error" aria-live="polite"></div>
+              </div>
+            </div>
+            <div class="form__row">
+              <div class="form__group">
+                <label for="cm-email">Email Address <span class="form__required" aria-hidden="true">*</span></label>
+                <input type="email" id="cm-email" name="email" class="form__input" placeholder="jane@example.com" required autocomplete="email" />
+                <div class="form__error" aria-live="polite"></div>
+              </div>
+              <div class="form__group">
+                <label for="cm-phone">Phone Number <span class="form__required" aria-hidden="true">*</span></label>
+                <input type="tel" id="cm-phone" name="phone" class="form__input" placeholder="(713) 555-0100" required autocomplete="tel" />
+                <div class="form__error" aria-live="polite"></div>
+              </div>
+            </div>
+            <div class="form__row">
+              <div class="form__group">
+                <label for="cm-role">Role Applying For <span class="form__required" aria-hidden="true">*</span></label>
+                <select id="cm-role" name="role" class="form__select" required>
+                  <option value="">— Select a role —</option>
+                  <option value="Registered Nurse (RN)">Registered Nurse (RN)</option>
+                  <option value="Licensed Vocational Nurse (LVN)">Licensed Vocational Nurse (LVN)</option>
+                  <option value="Certified Nursing Assistant (CNA)">Certified Nursing Assistant (CNA)</option>
+                  <option value="Caregiver">Caregiver</option>
+                  <option value="Other / Not Sure">Other / Not Sure</option>
+                </select>
+                <div class="form__error" aria-live="polite"></div>
+              </div>
+              <div class="form__group">
+                <label for="cm-experience">Years of Experience <span class="form__required" aria-hidden="true">*</span></label>
+                <select id="cm-experience" name="experience" class="form__select" required>
+                  <option value="">— Select —</option>
+                  <option value="Less than 1 year">Less than 1 year</option>
+                  <option value="1–2 years">1–2 years</option>
+                  <option value="3–5 years">3–5 years</option>
+                  <option value="6–10 years">6–10 years</option>
+                  <option value="10+ years">10+ years</option>
+                </select>
+                <div class="form__error" aria-live="polite"></div>
+              </div>
+            </div>
+            <div class="form__group">
+              <label for="cm-resume">Resume <span class="form__required" aria-hidden="true">*</span></label>
+              <div id="cm-resume-dropzone" style="border:2px dashed #cbd5e1;border-radius:8px;padding:20px 16px;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;background:#f8fafc;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:28px;height:28px;margin-bottom:8px;" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <p id="cm-resume-label" style="margin:0;font-size:14px;color:#64748b;">Click to upload or drag &amp; drop</p>
+                <p style="margin:4px 0 0;font-size:12px;color:#94a3b8;">PDF, DOC, or DOCX — max 5 MB</p>
+                <input type="file" id="cm-resume" name="resume" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" aria-required="true" />
+              </div>
+              <div class="form__error" id="cm-resume-error" aria-live="polite"></div>
+            </div>
+            <div class="lead-modal__submit-row">
+              <button type="submit" class="btn btn--primary" id="career-modal-submit">Submit Application</button>
+              <p class="lead-modal__disclaimer">Your resume is only used to evaluate your application.</p>
+            </div>
+          </form>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    var form = document.getElementById('career-modal-form');
+    var closeBtn = document.getElementById('career-modal-close');
+    var successDiv = document.getElementById('career-modal-success');
+    var submitBtn = document.getElementById('career-modal-submit');
+    var resumeInput = document.getElementById('cm-resume');
+    var resumeDropzone = document.getElementById('cm-resume-dropzone');
+    var resumeLabel = document.getElementById('cm-resume-label');
+    var resumeError = document.getElementById('cm-resume-error');
+
+    // Dropzone click opens file picker
+    resumeDropzone.addEventListener('click', function () { resumeInput.click(); });
+
+    // Drag and drop
+    resumeDropzone.addEventListener('dragover', function (e) {
+      e.preventDefault();
+      resumeDropzone.style.borderColor = '#0E7C7B';
+      resumeDropzone.style.background = '#f0fdf9';
+    });
+    resumeDropzone.addEventListener('dragleave', function () {
+      resumeDropzone.style.borderColor = '#cbd5e1';
+      resumeDropzone.style.background = '#f8fafc';
+    });
+    resumeDropzone.addEventListener('drop', function (e) {
+      e.preventDefault();
+      resumeDropzone.style.borderColor = '#cbd5e1';
+      resumeDropzone.style.background = '#f8fafc';
+      if (e.dataTransfer.files.length) {
+        resumeInput.files = e.dataTransfer.files;
+        handleFileSelect(e.dataTransfer.files[0]);
+      }
+    });
+
+    resumeInput.addEventListener('change', function () {
+      if (this.files.length) handleFileSelect(this.files[0]);
+    });
+
+    function handleFileSelect(file) {
+      var allowed = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+      var allowedExt = /\.(pdf|doc|docx)$/i;
+      if (!allowed.includes(file.type) && !allowedExt.test(file.name)) {
+        resumeError.textContent = 'Please upload a PDF, DOC, or DOCX file.';
+        resumeError.style.display = 'block';
+        resumeDropzone.style.borderColor = '#ef4444';
+        resumeLabel.textContent = 'Click to upload or drag & drop';
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        resumeError.textContent = 'File must be 5 MB or smaller.';
+        resumeError.style.display = 'block';
+        resumeDropzone.style.borderColor = '#ef4444';
+        resumeLabel.textContent = 'Click to upload or drag & drop';
+        return;
+      }
+      resumeError.textContent = '';
+      resumeError.style.display = 'none';
+      resumeDropzone.style.borderColor = '#0E7C7B';
+      resumeDropzone.style.background = '#f0fdf9';
+      resumeLabel.textContent = '✓ ' + file.name;
+    }
+
+    function validateCareerField(field) {
+      var group = field.closest('.form__group');
+      if (!group) return true;
+      var errorEl = group.querySelector('.form__error');
+      var value = field.value.trim();
+      var valid = true;
+      var message = '';
+
+      if (field.required && !value) { valid = false; message = 'This field is required.'; }
+      if (field.type === 'email' && value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) { valid = false; message = 'Please enter a valid email address.'; }
+      if (field.type === 'tel' && value && !/[\d\-\(\)\s\+]{7,20}/.test(value)) { valid = false; message = 'Please enter a valid phone number.'; }
+      if (field.tagName === 'SELECT' && field.required && !value) { valid = false; message = 'Please make a selection.'; }
+
+      if (valid) {
+        field.classList.remove('form__input--error', 'form__select--error');
+        if (errorEl) { errorEl.style.display = 'none'; errorEl.textContent = ''; }
+      } else {
+        field.classList.add(field.tagName === 'SELECT' ? 'form__select--error' : 'form__input--error');
+        if (errorEl) { errorEl.textContent = message; errorEl.style.display = 'block'; }
+      }
+      return valid;
+    }
+
+    form.querySelectorAll('input:not([type="file"]), select').forEach(function (field) {
+      field.addEventListener('blur', function () { validateCareerField(this); });
+      field.addEventListener('input', function () {
+        if (this.classList.contains('form__input--error') || this.classList.contains('form__select--error')) validateCareerField(this);
+      });
+    });
+
+    // Open modal on any .js-career-modal trigger
+    document.addEventListener('click', function (e) {
+      var trigger = e.target.closest('.js-career-modal');
+      if (trigger) { e.preventDefault(); openCareerModal(); }
+    });
+
+    closeBtn.addEventListener('click', closeCareerModal);
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) closeCareerModal(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeCareerModal();
+    });
+
+    function openCareerModal() {
+      form.reset();
+      successDiv.style.display = 'none';
+      form.style.display = 'block';
+      resumeLabel.textContent = 'Click to upload or drag & drop';
+      resumeDropzone.style.borderColor = '#cbd5e1';
+      resumeDropzone.style.background = '#f8fafc';
+      resumeError.textContent = '';
+      resumeError.style.display = 'none';
+      overlay.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(function () { closeBtn.focus(); }, 50);
+    }
+
+    function closeCareerModal() {
+      overlay.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var allValid = true;
+      form.querySelectorAll('input:not([type="file"])[required], select[required]').forEach(function (field) {
+        if (!validateCareerField(field)) allValid = false;
+      });
+
+      // Validate resume
+      var file = resumeInput.files && resumeInput.files[0];
+      if (!file) {
+        resumeError.textContent = 'Please upload your resume.';
+        resumeError.style.display = 'block';
+        resumeDropzone.style.borderColor = '#ef4444';
+        allValid = false;
+      }
+
+      if (!allValid) {
+        var first = form.querySelector('.form__input--error, .form__select--error');
+        if (first) { first.focus(); first.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+        else { resumeDropzone.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      var reader = new FileReader();
+      reader.onload = function (ev) {
+        // Strip the data URL prefix to get raw base64
+        var base64 = ev.target.result.split(',')[1];
+
+        var payload = {
+          name:            form.elements['name'].value.trim(),
+          email:           form.elements['email'].value.trim(),
+          phone:           form.elements['phone'].value.trim(),
+          location:        form.elements['location'].value.trim(),
+          role:            form.elements['role'].value,
+          experience:      form.elements['experience'].value,
+          resume_filename: file.name,
+          resume_content:  base64,
+          submitted_at:    new Date().toISOString(),
+          source_page:     window.location.href
+        };
+
+        fetch(SEND_APPLICATION_API, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+          .then(function (res) {
+            if (res.ok) {
+              form.style.display = 'none';
+              successDiv.style.display = 'block';
+              successDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Submit Application';
+              alert('There was a problem submitting your application. Please call us at (713) 777-9969.');
+            }
+          })
+          .catch(function () {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit Application';
+            alert('There was a problem submitting your application. Please call us at (713) 777-9969.');
+          });
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
   /* --- Hamburger Menu Toggle --- */
   function initMobileNav() {
     const hamburger = document.querySelector('.nav__hamburger');
@@ -624,6 +917,7 @@
   /* --- Init all --- */
   document.addEventListener('DOMContentLoaded', function () {
     initLeadModal();
+    initCareerModal();
     initMobileNav();
     initActiveNav();
     initSmoothScroll();

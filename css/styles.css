@@ -35,6 +35,7 @@
 html {
   scroll-behavior: smooth;
   font-size: 18px;
+  overflow-x: hidden;
 }
 
 body {
@@ -43,6 +44,7 @@ body {
   background: var(--bg);
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 img {

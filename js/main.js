@@ -358,8 +358,8 @@
                 <div class="form__error" aria-live="polite"></div>
               </div>
               <div class="form__group">
-                <label for="cm-location">City / State <span class="form__required" aria-hidden="true">*</span></label>
-                <input type="text" id="cm-location" name="location" class="form__input" placeholder="Houston, TX" required />
+                <label for="cm-location">What area are you from? <span class="form__required" aria-hidden="true">*</span></label>
+                <input type="text" id="cm-location" name="location" class="form__input" placeholder="e.g. Greater Houston Area" required />
                 <div class="form__error" aria-live="polite"></div>
               </div>
             </div>
@@ -919,7 +919,6 @@
     initLeadModal();
     initCareerModal();
     initMobileNav();
-    initActiveNav();
     initSmoothScroll();
     initForms();
     initScrollReveal();

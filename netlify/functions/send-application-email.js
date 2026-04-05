@@ -79,7 +79,7 @@ exports.handler = async (event) => {
         ${resume_filename ? `
         <p style="margin:0 0 10px;font-size:11px;font-weight:700;letter-spacing:1.2px;color:#94a3b8;text-transform:uppercase;">Resume</p>
         <div style="background:#f0fdf9;border-left:3px solid #0E7C7B;border-radius:0 6px 6px 0;padding:14px 18px;margin-bottom:28px;">
-          <p style="margin:0;font-size:14px;color:#334155;">📎 ${resume_filename} — see attachment</p>
+          <p style="margin:0;font-size:14px;color:#334155;">📎 ${resume_filename} — attached below, scroll down to view it.</p>
         </div>
         ` : ''}
 

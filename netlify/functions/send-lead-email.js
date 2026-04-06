@@ -24,7 +24,7 @@ exports.handler = async (event) => {
 
   const submittedFormatted = submitted_at
     ? new Date(submitted_at).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true })
-    : '—';
+    : 'N/A';
 
   const html = `
   <div style="background:#f0f2f5;padding:32px 16px;font-family:'Helvetica Neue',Arial,sans-serif;">
@@ -48,21 +48,21 @@ exports.handler = async (event) => {
           <tr>
             <td style="padding:12px 16px;background:#f8fafc;border-radius:8px 8px 0 0;border-bottom:1px solid #e2e8f0;width:50%;">
               <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">Name</p>
-              <p style="margin:4px 0 0;font-size:15px;font-weight:600;color:#1e293b;">${name || '—'}</p>
+              <p style="margin:4px 0 0;font-size:15px;font-weight:600;color:#1e293b;">${name || 'N/A'}</p>
             </td>
             <td style="padding:12px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;border-left:1px solid #e2e8f0;">
               <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">${facilityLabel}</p>
-              <p style="margin:4px 0 0;font-size:15px;font-weight:600;color:#1e293b;">${facility || '—'}</p>
+              <p style="margin:4px 0 0;font-size:15px;font-weight:600;color:#1e293b;">${facility || 'N/A'}</p>
             </td>
           </tr>
           <tr>
             <td style="padding:12px 16px;background:#fff;border-bottom:1px solid #e2e8f0;">
               <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">Email</p>
-              <p style="margin:4px 0 0;font-size:15px;"><a href="mailto:${email}" style="color:#2E86C1;text-decoration:none;font-weight:500;">${email || '—'}</a></p>
+              <p style="margin:4px 0 0;font-size:15px;"><a href="mailto:${email}" style="color:#2E86C1;text-decoration:none;font-weight:500;">${email || 'N/A'}</a></p>
             </td>
             <td style="padding:12px 16px;background:#fff;border-bottom:1px solid #e2e8f0;border-left:1px solid #e2e8f0;">
               <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">Phone</p>
-              <p style="margin:4px 0 0;font-size:15px;"><a href="tel:${phone}" style="color:#2E86C1;text-decoration:none;font-weight:500;">${phone || '—'}</a></p>
+              <p style="margin:4px 0 0;font-size:15px;"><a href="tel:${phone}" style="color:#2E86C1;text-decoration:none;font-weight:500;">${phone || 'N/A'}</a></p>
             </td>
           </tr>
         </table>

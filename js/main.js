@@ -67,7 +67,7 @@
                 <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
               <h3>Request Received!</h3>
-              <p>Thank you — we'll be in touch shortly. For urgent needs, call us at <strong>(713) 777-9969</strong>.</p>
+              <p>Thank you. We'll be in touch shortly. For urgent needs, call us at <strong>(713) 777-9969</strong>.</p>
             </div>
             <form class="lead-modal__form" id="lead-modal-form" novalidate>
               <div class="form__row">
@@ -97,14 +97,14 @@
               <div class="form__group">
                 <label for="lm-service">Type of Coverage Needed <span class="form__required" aria-hidden="true">*</span></label>
                 <select id="lm-service" name="service" class="form__select" required>
-                  <option value="">— Select a service —</option>
+                  <option value="">Select a service</option>
                   <option value="RN Coverage">RN Coverage</option>
                   <option value="LVN Coverage">LVN Coverage</option>
                   <option value="CNA Coverage">CNA / PCT Coverage</option>
                   <option value="ICU / Critical Care">ICU / Critical Care</option>
                   <option value="Med-Surg">Med-Surg</option>
                   <option value="Multiple Roles">Multiple Roles / Mixed</option>
-                  <option value="Not Sure">Not Sure — Need Guidance</option>
+                  <option value="Not Sure">Not Sure / Need Guidance</option>
                 </select>
                 <div class="form__error" aria-live="polite"></div>
               </div>
@@ -348,7 +348,7 @@
               <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
             </div>
             <h3>Application Received!</h3>
-            <p>Thank you for applying — we'll review your application and be in touch shortly. For urgent inquiries call <strong>(713) 777-9969</strong>.</p>
+            <p>Thank you for applying. We'll review your application and reach out shortly. For urgent inquiries call <strong>(713) 777-9969</strong>.</p>
           </div>
           <form class="lead-modal__form" id="career-modal-form" novalidate>
 
@@ -381,7 +381,7 @@
             <div class="form__group">
               <label for="cm-role">Position Applying For <span class="form__required" aria-hidden="true">*</span></label>
               <select id="cm-role" name="role" class="form__select" required>
-                <option value="">— Select a position —</option>
+                <option value="">Select a position</option>
                 <option value="LVN">LVN</option>
                 <option value="CNA">CNA</option>
                 <option value="RN">RN</option>
@@ -455,7 +455,7 @@
               <div id="cm-resume-dropzone" style="border:2px dashed #cbd5e1;border-radius:8px;padding:20px 16px;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;background:#f8fafc;">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:28px;height:28px;margin-bottom:8px;" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                 <p id="cm-resume-label" style="margin:0;font-size:14px;color:#64748b;">Click to upload or drag &amp; drop</p>
-                <p style="margin:4px 0 0;font-size:12px;color:#94a3b8;">PDF, DOC, or DOCX — max 5 MB</p>
+                <p style="margin:4px 0 0;font-size:12px;color:#94a3b8;">PDF, DOC, or DOCX, max 5 MB</p>
                 <input type="file" id="cm-resume" name="resume" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" aria-required="true" />
               </div>
               <div class="form__error" id="cm-resume-error" aria-live="polite"></div>

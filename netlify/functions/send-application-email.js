@@ -21,18 +21,18 @@ exports.handler = async (event) => {
 
   const { firstname, lastname, email, phone, role, licensed, bgcheck, drugtest, workauth, sponsorship, experience, startdate, resume_filename, resume_content, submitted_at, source_page } = JSON.parse(event.body || '{}');
 
-  const fullName = [firstname, lastname].filter(Boolean).join(' ') || '—';
+  const fullName = [firstname, lastname].filter(Boolean).join(' ') || 'N/A';
 
   const submittedFormatted = submitted_at
     ? new Date(submitted_at).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true })
-    : '—';
+    : 'N/A';
 
   const startFormatted = startdate
     ? new Date(startdate + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-    : '—';
+    : 'N/A';
 
   function yesNo(val) {
-    if (!val) return '—';
+    if (!val) return 'N/A';
     return val === 'Yes'
       ? '<span style="color:#16a34a;font-weight:700;">Yes</span>'
       : '<span style="color:#dc2626;font-weight:700;">No</span>';
@@ -64,23 +64,23 @@ exports.handler = async (event) => {
             </td>
             <td style="padding:12px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;border-left:1px solid #e2e8f0;">
               <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">Position Applied For</p>
-              <p style="margin:4px 0 0;font-size:15px;font-weight:600;color:#1e293b;">${role || '—'}</p>
+              <p style="margin:4px 0 0;font-size:15px;font-weight:600;color:#1e293b;">${role || 'N/A'}</p>
             </td>
           </tr>
           <tr>
             <td style="padding:12px 16px;background:#fff;border-bottom:1px solid #e2e8f0;">
               <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">Email</p>
-              <p style="margin:4px 0 0;font-size:15px;"><a href="mailto:${email}" style="color:#0E7C7B;text-decoration:none;font-weight:500;">${email || '—'}</a></p>
+              <p style="margin:4px 0 0;font-size:15px;"><a href="mailto:${email}" style="color:#0E7C7B;text-decoration:none;font-weight:500;">${email || 'N/A'}</a></p>
             </td>
             <td style="padding:12px 16px;background:#fff;border-bottom:1px solid #e2e8f0;border-left:1px solid #e2e8f0;">
               <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">Phone</p>
-              <p style="margin:4px 0 0;font-size:15px;"><a href="tel:${phone}" style="color:#0E7C7B;text-decoration:none;font-weight:500;">${phone || '—'}</a></p>
+              <p style="margin:4px 0 0;font-size:15px;"><a href="tel:${phone}" style="color:#0E7C7B;text-decoration:none;font-weight:500;">${phone || 'N/A'}</a></p>
             </td>
           </tr>
           <tr>
             <td style="padding:12px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;">
               <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">Years of Experience</p>
-              <p style="margin:4px 0 0;font-size:15px;font-weight:600;color:#1e293b;">${experience || '—'}</p>
+              <p style="margin:4px 0 0;font-size:15px;font-weight:600;color:#1e293b;">${experience || 'N/A'}</p>
             </td>
             <td style="padding:12px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;border-left:1px solid #e2e8f0;">
               <p style="margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">Preferred Start Date</p>
@@ -126,7 +126,7 @@ exports.handler = async (event) => {
         ${resume_filename ? `
         <p style="margin:0 0 10px;font-size:11px;font-weight:700;letter-spacing:1.2px;color:#94a3b8;text-transform:uppercase;">Resume</p>
         <div style="background:#f0fdf9;border-left:3px solid #0E7C7B;border-radius:0 6px 6px 0;padding:14px 18px;margin-bottom:28px;">
-          <p style="margin:0;font-size:14px;color:#334155;">📎 ${resume_filename} — attached below, scroll down to view it.</p>
+          <p style="margin:0;font-size:14px;color:#334155;">📎 ${resume_filename} (attached - scroll down to view it)</p>
         </div>
         ` : ''}
 

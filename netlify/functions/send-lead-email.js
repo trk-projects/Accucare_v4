@@ -222,18 +222,22 @@ exports.handler = async (event) => {
       return { statusCode: 500, headers: corsHeaders, body: JSON.stringify({ error: 'Failed to send notification email.', detail: notifyData }) };
     }
 
-    // Send confirmation to lead (fire-and-forget, best effort)
+    // Send confirmation to lead
     if (email) {
-      fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: resendHeaders,
-        body: JSON.stringify({
-          from:    'Accucare Nurse Staffing <donotreply@trkaiagency.com>',
-          to:      [email],
-          subject: 'We received your request — Accucare Nurse Staffing',
-          html:    confirmHtml
-        })
-      }).catch(err => console.error('Confirm email error:', err.message));
+      try {
+        await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: resendHeaders,
+          body: JSON.stringify({
+            from:    'Accucare Nurse Staffing <donotreply@trkaiagency.com>',
+            to:      [email],
+            subject: 'We received your request — Accucare Nurse Staffing',
+            html:    confirmHtml
+          })
+        });
+      } catch (err) {
+        console.error('Confirm email error:', err.message);
+      }
     }
 
     return { statusCode: 200, headers: corsHeaders, body: JSON.stringify({ ok: true, id: notifyData.id }) };

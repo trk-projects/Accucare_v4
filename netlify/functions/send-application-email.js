@@ -33,10 +33,10 @@ exports.handler = async (event) => {
     : 'N/A';
 
   function yesNo(val) {
-    if (!val) return 'N/A';
+    if (!val) return '<span style="color:#94a3b8;">N/A</span>';
     return val === 'Yes'
-      ? '<span style="color:#16a34a;font-weight:700;">Yes</span>'
-      : '<span style="color:#dc2626;font-weight:700;">No</span>';
+      ? '<span style="color:#2E7D5E;font-weight:700;">Yes</span>'
+      : '<span style="color:#CC2229;font-weight:700;">No</span>';
   }
 
   /* ── Internal notification to Accucare ── */
@@ -44,51 +44,51 @@ exports.handler = async (event) => {
 <!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#f1f5f9;font-family:'Helvetica Neue',Arial,sans-serif;">
+<body style="margin:0;padding:0;background:#EEF2F8;font-family:'Helvetica Neue',Arial,sans-serif;">
 
-  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f1f5f9;">
-    <tr><td style="padding:32px 24px 0;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#EEF2F8;">
+    <tr><td style="padding:32px 0 0;">
 
       <!-- Header -->
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0e4d4c;border-radius:10px 10px 0 0;">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:linear-gradient(135deg,#1B3068 0%,#0e1e44 100%);">
         <tr>
-          <td style="padding:36px 40px 28px;">
-            <p style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.45);">Accucare Nurse Staffing</p>
-            <h1 style="margin:0 0 6px;font-size:28px;font-weight:700;color:#ffffff;line-height:1.2;">New Job Applicant</h1>
-            <p style="margin:0;font-size:14px;color:rgba(255,255,255,0.6);">Submitted ${submittedFormatted}</p>
+          <td style="padding:40px 48px 32px;">
+            <p style="margin:0 0 6px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);">Accucare Nurse Staffing</p>
+            <h1 style="margin:0 0 6px;font-size:30px;font-weight:400;color:#ffffff;line-height:1.2;font-family:Georgia,'Times New Roman',serif;">New Job Applicant</h1>
+            <p style="margin:0;font-size:13px;color:rgba(255,255,255,0.55);">Received ${submittedFormatted}</p>
           </td>
-          <td style="padding:36px 40px 28px;text-align:right;vertical-align:top;">
-            <span style="display:inline-block;background:#0E7C7B;color:#ffffff;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:7px 18px;border-radius:50px;">${role || 'Not specified'}</span>
+          <td style="padding:40px 48px 32px;text-align:right;vertical-align:middle;">
+            <span style="display:inline-block;background:#CC2229;color:#ffffff;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 16px;border-radius:6px;">${role || 'Not specified'}</span>
           </td>
         </tr>
       </table>
 
-      <!-- Divider bar -->
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0E7C7B;">
+      <!-- Red accent bar -->
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#CC2229;">
         <tr><td style="height:4px;"></td></tr>
       </table>
 
       <!-- Body -->
       <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;">
-        <tr><td style="padding:36px 40px 0;">
-          <p style="margin:0 0 20px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#94a3b8;">Contact Details</p>
+        <tr><td style="padding:40px 48px 0;">
+          <p style="margin:0 0 24px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CC2229;">Applicant Details</p>
         </td></tr>
 
         <!-- Row 1: Name + Role -->
         <tr>
-          <td width="50%" style="padding:0 0 0 40px;vertical-align:top;">
-            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafc;border-radius:8px;margin-bottom:12px;">
+          <td width="50%" style="padding:0 0 0 48px;vertical-align:top;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #E2E8EF;border-radius:6px;margin-bottom:12px;">
               <tr><td style="padding:16px 20px;">
-                <p style="margin:0 0 4px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#94a3b8;">Full Name</p>
-                <p style="margin:0;font-size:16px;font-weight:600;color:#0f172a;">${fullName}</p>
+                <p style="margin:0 0 5px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CC2229;">Full Name</p>
+                <p style="margin:0;font-size:16px;font-weight:600;color:#1A1A2E;">${fullName}</p>
               </td></tr>
             </table>
           </td>
-          <td width="50%" style="padding:0 40px 0 12px;vertical-align:top;">
-            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafc;border-radius:8px;margin-bottom:12px;">
+          <td width="50%" style="padding:0 48px 0 12px;vertical-align:top;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #E2E8EF;border-radius:6px;margin-bottom:12px;">
               <tr><td style="padding:16px 20px;">
-                <p style="margin:0 0 4px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#94a3b8;">Position Applied For</p>
-                <p style="margin:0;font-size:16px;font-weight:600;color:#0f172a;">${role || 'N/A'}</p>
+                <p style="margin:0 0 5px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CC2229;">Position Applied For</p>
+                <p style="margin:0;font-size:16px;font-weight:600;color:#1A1A2E;">${role || 'N/A'}</p>
               </td></tr>
             </table>
           </td>
@@ -96,19 +96,19 @@ exports.handler = async (event) => {
 
         <!-- Row 2: Email + Phone -->
         <tr>
-          <td width="50%" style="padding:0 0 0 40px;vertical-align:top;">
-            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafc;border-radius:8px;margin-bottom:12px;">
+          <td width="50%" style="padding:0 0 0 48px;vertical-align:top;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #E2E8EF;border-radius:6px;margin-bottom:12px;">
               <tr><td style="padding:16px 20px;">
-                <p style="margin:0 0 4px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#94a3b8;">Email</p>
-                <p style="margin:0;font-size:15px;"><a href="mailto:${email}" style="color:#0E7C7B;font-weight:600;text-decoration:none;">${email || 'N/A'}</a></p>
+                <p style="margin:0 0 5px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CC2229;">Email</p>
+                <p style="margin:0;font-size:15px;"><a href="mailto:${email}" style="color:#1B3068;font-weight:600;text-decoration:none;">${email || 'N/A'}</a></p>
               </td></tr>
             </table>
           </td>
-          <td width="50%" style="padding:0 40px 0 12px;vertical-align:top;">
-            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafc;border-radius:8px;margin-bottom:12px;">
+          <td width="50%" style="padding:0 48px 0 12px;vertical-align:top;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #E2E8EF;border-radius:6px;margin-bottom:12px;">
               <tr><td style="padding:16px 20px;">
-                <p style="margin:0 0 4px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#94a3b8;">Phone</p>
-                <p style="margin:0;font-size:15px;"><a href="tel:${phone}" style="color:#0E7C7B;font-weight:600;text-decoration:none;">${phone || 'N/A'}</a></p>
+                <p style="margin:0 0 5px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CC2229;">Phone</p>
+                <p style="margin:0;font-size:15px;"><a href="tel:${phone}" style="color:#1B3068;font-weight:600;text-decoration:none;">${phone || 'N/A'}</a></p>
               </td></tr>
             </table>
           </td>
@@ -116,74 +116,75 @@ exports.handler = async (event) => {
 
         <!-- Row 3: Experience + Start Date -->
         <tr>
-          <td width="50%" style="padding:0 0 0 40px;vertical-align:top;">
-            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafc;border-radius:8px;margin-bottom:12px;">
+          <td width="50%" style="padding:0 0 0 48px;vertical-align:top;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #E2E8EF;border-radius:6px;margin-bottom:20px;">
               <tr><td style="padding:16px 20px;">
-                <p style="margin:0 0 4px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#94a3b8;">Years of Experience</p>
-                <p style="margin:0;font-size:16px;font-weight:600;color:#0f172a;">${experience || 'N/A'}</p>
+                <p style="margin:0 0 5px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CC2229;">Years of Experience</p>
+                <p style="margin:0;font-size:16px;font-weight:600;color:#1A1A2E;">${experience || 'N/A'}</p>
               </td></tr>
             </table>
           </td>
-          <td width="50%" style="padding:0 40px 0 12px;vertical-align:top;">
-            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafc;border-radius:8px;margin-bottom:12px;">
+          <td width="50%" style="padding:0 48px 0 12px;vertical-align:top;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #E2E8EF;border-radius:6px;margin-bottom:20px;">
               <tr><td style="padding:16px 20px;">
-                <p style="margin:0 0 4px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#94a3b8;">Preferred Start Date</p>
-                <p style="margin:0;font-size:16px;font-weight:600;color:#0f172a;">${startFormatted}</p>
+                <p style="margin:0 0 5px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CC2229;">Preferred Start Date</p>
+                <p style="margin:0;font-size:16px;font-weight:600;color:#1A1A2E;">${startFormatted}</p>
               </td></tr>
             </table>
           </td>
         </tr>
 
         <!-- Eligibility Questions -->
-        <tr><td colspan="2" style="padding:8px 40px 0;">
-          <p style="margin:0 0 12px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#94a3b8;">Eligibility</p>
-          <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafc;border-radius:8px;margin-bottom:12px;">
-            <tr>
-              <td style="padding:12px 20px;border-bottom:1px solid #e2e8f0;font-size:13px;color:#334155;width:75%;">Has required license/certification for the position</td>
-              <td style="padding:12px 20px;border-bottom:1px solid #e2e8f0;text-align:center;">${yesNo(licensed)}</td>
+        <tr><td colspan="2" style="padding:0 48px 0;">
+          <p style="margin:0 0 14px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CC2229;">Eligibility</p>
+          <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #E2E8EF;border-radius:6px;margin-bottom:20px;">
+            <tr style="border-bottom:1px solid #E2E8EF;">
+              <td style="padding:13px 20px;font-size:13px;color:#475569;border-bottom:1px solid #E2E8EF;width:78%;">Has required license/certification for the position</td>
+              <td style="padding:13px 20px;font-size:14px;border-bottom:1px solid #E2E8EF;text-align:center;">${yesNo(licensed)}</td>
             </tr>
             <tr>
-              <td style="padding:12px 20px;border-bottom:1px solid #e2e8f0;font-size:13px;color:#334155;">Willing to undergo a background check</td>
-              <td style="padding:12px 20px;border-bottom:1px solid #e2e8f0;text-align:center;">${yesNo(bgcheck)}</td>
+              <td style="padding:13px 20px;font-size:13px;color:#475569;border-bottom:1px solid #E2E8EF;">Willing to undergo a background check</td>
+              <td style="padding:13px 20px;font-size:14px;border-bottom:1px solid #E2E8EF;text-align:center;">${yesNo(bgcheck)}</td>
             </tr>
             <tr>
-              <td style="padding:12px 20px;border-bottom:1px solid #e2e8f0;font-size:13px;color:#334155;">Willing to take a drug test</td>
-              <td style="padding:12px 20px;border-bottom:1px solid #e2e8f0;text-align:center;">${yesNo(drugtest)}</td>
+              <td style="padding:13px 20px;font-size:13px;color:#475569;border-bottom:1px solid #E2E8EF;">Willing to take a drug test</td>
+              <td style="padding:13px 20px;font-size:14px;border-bottom:1px solid #E2E8EF;text-align:center;">${yesNo(drugtest)}</td>
             </tr>
             <tr>
-              <td style="padding:12px 20px;border-bottom:1px solid #e2e8f0;font-size:13px;color:#334155;">Legally authorized to work in the United States</td>
-              <td style="padding:12px 20px;border-bottom:1px solid #e2e8f0;text-align:center;">${yesNo(workauth)}</td>
+              <td style="padding:13px 20px;font-size:13px;color:#475569;border-bottom:1px solid #E2E8EF;">Legally authorized to work in the United States</td>
+              <td style="padding:13px 20px;font-size:14px;border-bottom:1px solid #E2E8EF;text-align:center;">${yesNo(workauth)}</td>
             </tr>
             <tr>
-              <td style="padding:12px 20px;font-size:13px;color:#334155;">Will require visa sponsorship (now or in the future)</td>
-              <td style="padding:12px 20px;text-align:center;">${yesNo(sponsorship)}</td>
+              <td style="padding:13px 20px;font-size:13px;color:#475569;">Will require visa sponsorship (now or in the future)</td>
+              <td style="padding:13px 20px;font-size:14px;text-align:center;">${yesNo(sponsorship)}</td>
             </tr>
           </table>
         </td></tr>
 
         ${resume_filename ? `
         <!-- Resume -->
-        <tr><td colspan="2" style="padding:8px 40px 0;">
-          <p style="margin:0 0 10px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#94a3b8;">Resume</p>
-          <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f0fdf9;border-left:4px solid #0E7C7B;border-radius:0 8px 8px 0;margin-bottom:12px;">
+        <tr><td colspan="2" style="padding:0 48px 0;">
+          <p style="margin:0 0 10px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CC2229;">Resume</p>
+          <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #E2E8EF;border-left:4px solid #CC2229;border-radius:0 6px 6px 0;margin-bottom:20px;">
             <tr><td style="padding:16px 20px;">
-              <p style="margin:0;font-size:14px;color:#334155;">Resume file: <strong>${resume_filename}</strong> — attached below, scroll down to view it.</p>
+              <p style="margin:0;font-size:14px;color:#475569;">File: <strong style="color:#1A1A2E;">${resume_filename}</strong> — attached below, scroll down to view.</p>
             </td></tr>
           </table>
         </td></tr>
         ` : ''}
 
         <!-- Action buttons -->
-        <tr><td colspan="2" style="padding:28px 40px 40px;text-align:center;">
-          <a href="mailto:${email}?subject=Re: Your Application at Accucare Nurse Staffing" style="display:inline-block;background:#0e4d4c;color:#ffffff;font-size:14px;font-weight:700;text-decoration:none;padding:14px 32px;border-radius:8px;margin:4px;">Reply to ${firstname || 'Applicant'}</a>
-          <a href="tel:${phone}" style="display:inline-block;background:#ffffff;color:#0e4d4c;font-size:14px;font-weight:700;text-decoration:none;padding:14px 32px;border-radius:8px;margin:4px;border:2px solid #0e4d4c;">Call ${firstname || 'Applicant'}</a>
+        <tr><td colspan="2" style="padding:32px 48px 44px;text-align:center;">
+          <a href="mailto:${email}?subject=Re: Your Application at Accucare Nurse Staffing" style="display:inline-block;background:#CC2229;color:#ffffff;font-size:14px;font-weight:600;text-decoration:none;padding:14px 30px;border-radius:6px;margin:4px;">Reply to ${firstname || 'Applicant'}</a>
+          <a href="tel:${phone}" style="display:inline-block;background:#ffffff;color:#1B3068;font-size:14px;font-weight:600;text-decoration:none;padding:12px 30px;border-radius:6px;margin:4px;border:2px solid #1B3068;">Call ${firstname || 'Applicant'}</a>
         </td></tr>
       </table>
 
       <!-- Footer -->
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafc;border-top:1px solid #e2e8f0;border-radius:0 0 10px 10px;">
-        <tr><td style="padding:16px 40px;text-align:center;">
-          <p style="margin:0;font-size:12px;color:#94a3b8;">Sent by TRK Agency on behalf of Accucare &nbsp;&bull;&nbsp; <a href="${source_page || 'https://accucarenursestaffing.com'}" style="color:#94a3b8;text-decoration:underline;">View source page</a></p>
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0e1e44;">
+        <tr><td style="padding:20px 48px;text-align:center;">
+          <p style="margin:0 0 4px;font-size:13px;font-weight:600;color:#ffffff;font-family:Georgia,'Times New Roman',serif;">Accucare Nurse Staffing</p>
+          <p style="margin:0;font-size:11px;color:rgba(255,255,255,0.45);">Sent by TRK Agency &nbsp;&bull;&nbsp; <a href="${source_page || 'https://accucarenursestaffing.com'}" style="color:rgba(255,255,255,0.45);text-decoration:underline;">View source page</a></p>
         </td></tr>
       </table>
 
@@ -199,53 +200,52 @@ exports.handler = async (event) => {
 <!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#f1f5f9;font-family:'Helvetica Neue',Arial,sans-serif;">
+<body style="margin:0;padding:0;background:#EEF2F8;font-family:'Helvetica Neue',Arial,sans-serif;">
 
-  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f1f5f9;">
-    <tr><td style="padding:32px 24px 0;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#EEF2F8;">
+    <tr><td style="padding:32px 0 0;">
 
       <!-- Header -->
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0e4d4c;border-radius:10px 10px 0 0;">
-        <tr><td style="padding:40px 40px 32px;">
-          <p style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.45);">Accucare Nurse Staffing</p>
-          <h1 style="margin:0 0 8px;font-size:26px;font-weight:700;color:#ffffff;line-height:1.2;">We got your application, ${firstName}.</h1>
-          <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.7);line-height:1.6;">Our team will review it and reach out to you soon. If you have any questions, give us a call.</p>
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:linear-gradient(135deg,#1B3068 0%,#0e1e44 100%);">
+        <tr><td style="padding:44px 48px 36px;">
+          <p style="margin:0 0 6px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);">Accucare Nurse Staffing</p>
+          <h1 style="margin:0 0 10px;font-size:28px;font-weight:400;color:#ffffff;line-height:1.2;font-family:Georgia,'Times New Roman',serif;">We received your application, ${firstName}.</h1>
+          <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.65);line-height:1.6;">Our team will review it and be in touch with you soon. If you have questions, give us a call.</p>
         </td></tr>
       </table>
 
-      <!-- Accent bar -->
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0E7C7B;">
+      <!-- Red accent bar -->
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#CC2229;">
         <tr><td style="height:4px;"></td></tr>
       </table>
 
       <!-- Body -->
       <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;">
-        <tr><td style="padding:36px 40px;">
+        <tr><td style="padding:40px 48px;">
 
-          <p style="margin:0 0 24px;font-size:16px;color:#334155;line-height:1.7;">Thanks for applying at Accucare. We received your application and someone from our team will follow up with you within one business day. We look forward to connecting with you.</p>
+          <p style="margin:0 0 28px;font-size:15px;color:#475569;line-height:1.75;">Thanks for applying at Accucare. We received your application and someone from our team will follow up with you within one business day. We look forward to connecting with you.</p>
 
           <!-- Summary box -->
-          <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafc;border-radius:8px;margin-bottom:28px;">
-            <tr><td style="padding:20px 24px;">
-              <p style="margin:0 0 12px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#94a3b8;">Your Application</p>
-              <p style="margin:0 0 6px;font-size:14px;color:#64748b;"><strong style="color:#0f172a;">Position:</strong> ${role || 'Not specified'}</p>
-              <p style="margin:0 0 6px;font-size:14px;color:#64748b;"><strong style="color:#0f172a;">Preferred Start Date:</strong> ${startFormatted}</p>
-              <p style="margin:0;font-size:14px;color:#64748b;"><strong style="color:#0f172a;">Submitted:</strong> ${submittedFormatted}</p>
+          <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #E2E8EF;border-top:4px solid #CC2229;border-radius:0 0 6px 6px;margin-bottom:32px;">
+            <tr><td style="padding:22px 24px;">
+              <p style="margin:0 0 14px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CC2229;">Your Application</p>
+              <p style="margin:0 0 8px;font-size:14px;color:#475569;"><strong style="color:#1A1A2E;">Position:</strong> ${role || 'Not specified'}</p>
+              <p style="margin:0 0 8px;font-size:14px;color:#475569;"><strong style="color:#1A1A2E;">Preferred Start Date:</strong> ${startFormatted}</p>
+              <p style="margin:0;font-size:14px;color:#475569;"><strong style="color:#1A1A2E;">Submitted:</strong> ${submittedFormatted}</p>
             </td></tr>
           </table>
 
-          <!-- Call to action -->
-          <p style="margin:0 0 16px;font-size:15px;color:#334155;">Have a question in the meantime?</p>
-          <a href="tel:7137779969" style="display:inline-block;background:#0e4d4c;color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;padding:14px 32px;border-radius:8px;">Call (713) 777-9969</a>
+          <p style="margin:0 0 18px;font-size:15px;color:#475569;">Have a question in the meantime?</p>
+          <a href="tel:7137779969" style="display:inline-block;background:#CC2229;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;padding:14px 32px;border-radius:6px;">Call (713) 777-9969</a>
 
         </td></tr>
       </table>
 
       <!-- Footer -->
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafc;border-top:1px solid #e2e8f0;border-radius:0 0 10px 10px;">
-        <tr><td style="padding:20px 40px;text-align:center;">
-          <p style="margin:0 0 4px;font-size:13px;font-weight:600;color:#0f172a;">Accucare Nurse Staffing</p>
-          <p style="margin:0;font-size:12px;color:#94a3b8;">9894 Bissonnet St, Suite 430, Houston TX 77036 &nbsp;&bull;&nbsp; (713) 777-9969</p>
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0e1e44;">
+        <tr><td style="padding:24px 48px;text-align:center;">
+          <p style="margin:0 0 4px;font-size:13px;font-weight:600;color:#ffffff;font-family:Georgia,'Times New Roman',serif;">Accucare Nurse Staffing</p>
+          <p style="margin:0;font-size:11px;color:rgba(255,255,255,0.45);">9894 Bissonnet St, Suite 430, Houston TX 77036 &nbsp;&bull;&nbsp; (713) 777-9969</p>
         </td></tr>
       </table>
 

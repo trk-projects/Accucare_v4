@@ -701,8 +701,10 @@ p {
 
 .verticals__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .vertical-card {
@@ -1168,10 +1170,9 @@ p {
 }
 
 .service-detail__inner {
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 64px;
-  align-items: start;
+  display: block;
+  max-width: 720px;
+  margin: 0 auto;
 }
 
 .service-detail__badge {
@@ -2074,7 +2075,7 @@ p {
    ============================================================ */
 
 .nav__logo-img {
-  height: 46px;
+  height: 62px;
   width: auto;
   display: block;
 }
@@ -2117,6 +2118,7 @@ p {
 
   .verticals__grid {
     grid-template-columns: repeat(2, 1fr);
+    max-width: 100%;
   }
 
   .why-grid {

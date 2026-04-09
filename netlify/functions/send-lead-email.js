@@ -151,7 +151,7 @@ exports.handler = async (event) => {
         <tr><td style="padding:44px 48px 36px;">
           <p style="margin:0 0 6px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);">Accucare Nurse Staffing</p>
           <h1 style="margin:0 0 10px;font-size:28px;font-weight:400;color:#ffffff;line-height:1.2;font-family:Georgia,'Times New Roman',serif;">We received your request, ${firstName}.</h1>
-          <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.65);line-height:1.6;">Our team will follow up with you shortly. For urgent needs, call us anytime — we're available around the clock.</p>
+          <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.65);line-height:1.6;">Someone from our team will be in touch with you shortly. For urgent needs, we are available by phone at any hour.</p>
         </td></tr>
       </table>
 
@@ -164,7 +164,7 @@ exports.handler = async (event) => {
       <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;">
         <tr><td style="padding:40px 48px;">
 
-          <p style="margin:0 0 28px;font-size:15px;color:#475569;line-height:1.75;">Thank you for reaching out. We received your staffing request and someone from our team will be in touch within one business hour during regular hours.</p>
+          <p style="margin:0 0 28px;font-size:15px;color:#475569;line-height:1.75;">Thank you for contacting Accucare. We have received your staffing request and a member of our team will follow up within one business hour during regular hours.</p>
 
           <!-- Summary box -->
           <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #E2E8EF;border-top:4px solid #CC2229;border-radius:0 0 6px 6px;margin-bottom:32px;">
@@ -176,7 +176,7 @@ exports.handler = async (event) => {
             </td></tr>
           </table>
 
-          <p style="margin:0 0 18px;font-size:15px;color:#475569;">Need to speak with someone right now?</p>
+          <p style="margin:0 0 18px;font-size:15px;color:#475569;">Prefer to speak with someone directly?</p>
           <a href="tel:7137779969" style="display:inline-block;background:#CC2229;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;padding:14px 32px;border-radius:6px;">Call (713) 777-9969</a>
 
         </td></tr>

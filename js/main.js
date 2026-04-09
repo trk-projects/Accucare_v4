@@ -98,13 +98,6 @@
                 <label for="lm-service">Type of Coverage Needed <span class="form__required" aria-hidden="true">*</span></label>
                 <select id="lm-service" name="service" class="form__select" required>
                   <option value="">Select a service</option>
-                  <option value="RN Coverage">RN Coverage</option>
-                  <option value="LVN Coverage">LVN Coverage</option>
-                  <option value="CNA Coverage">CNA / PCT Coverage</option>
-                  <option value="ICU / Critical Care">ICU / Critical Care</option>
-                  <option value="Med-Surg">Med-Surg</option>
-                  <option value="Multiple Roles">Multiple Roles / Mixed</option>
-                  <option value="Not Sure">Not Sure / Need Guidance</option>
                 </select>
                 <div class="form__error" aria-live="polite"></div>
               </div>
@@ -137,12 +130,42 @@
     var backBtn = document.getElementById('lead-modal-back');
     var careType = '';
 
+    var homeServiceOptions = [
+      { value: 'RN Coverage',          label: 'RN Coverage' },
+      { value: 'LVN Coverage',         label: 'LVN Coverage' },
+      { value: 'CNA Coverage',         label: 'CNA Coverage' },
+      { value: 'Caregiver / Companion',label: 'Caregiver / Companion' },
+      { value: 'ICU / Critical Care',  label: 'ICU / Critical Care' },
+      { value: 'Not Sure',             label: 'Not Sure / Need Guidance' }
+    ];
+
+    var facilityServiceOptions = [
+      { value: 'RN Coverage',         label: 'RN Coverage' },
+      { value: 'LVN Coverage',        label: 'LVN Coverage' },
+      { value: 'CNA Coverage',        label: 'CNA Coverage' },
+      { value: 'CMA',                 label: 'CMA' },
+      { value: 'ICU / Critical Care', label: 'ICU / Critical Care' },
+      { value: 'Med-Surg',            label: 'Med-Surg' }
+    ];
+
+    function populateServiceDropdown(options) {
+      var select = document.getElementById('lm-service');
+      select.innerHTML = '<option value="">Select a service</option>';
+      options.forEach(function(opt) {
+        var el = document.createElement('option');
+        el.value = opt.value;
+        el.textContent = opt.label;
+        select.appendChild(el);
+      });
+    }
+
     // Choice buttons
     document.getElementById('choice-home').addEventListener('click', function () {
       careType = 'home';
       facilityLabel.innerHTML = 'Home Address <span class="form__required" aria-hidden="true">*</span>';
       facilityInput.placeholder = 'e.g. 123 Main St, Houston TX';
       subtitle.textContent = 'Fill out the form and our team will follow up within one business hour.';
+      populateServiceDropdown(homeServiceOptions);
       showStep2();
     });
 
@@ -151,6 +174,7 @@
       facilityLabel.innerHTML = 'Facility / Organization <span class="form__required" aria-hidden="true">*</span>';
       facilityInput.placeholder = 'e.g. Houston Medical Center';
       subtitle.textContent = 'Fill out the form and our team will follow up within one business hour.';
+      populateServiceDropdown(facilityServiceOptions);
       showStep2();
     });
 
@@ -382,12 +406,10 @@
               <label for="cm-role">Position Applying For <span class="form__required" aria-hidden="true">*</span></label>
               <select id="cm-role" name="role" class="form__select" required>
                 <option value="">Select a position</option>
+                <option value="RN">RN</option>
                 <option value="LVN">LVN</option>
                 <option value="CNA">CNA</option>
-                <option value="RN">RN</option>
-                <option value="Medical Technician">Medical Technician</option>
-                <option value="Administrative Assistant">Administrative Assistant</option>
-                <option value="Staffing Coordinator">Staffing Coordinator</option>
+                <option value="Caregiver / Sitter">Caregiver / Sitter</option>
               </select>
               <div class="form__error" aria-live="polite"></div>
             </div>

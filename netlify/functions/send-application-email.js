@@ -223,7 +223,7 @@ exports.handler = async (event) => {
       <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;">
         <tr><td style="padding:40px 48px;">
 
-          <p style="margin:0 0 28px;font-size:15px;color:#475569;line-height:1.75;">Thanks for applying at Accucare. We received your application and someone from our team will follow up with you within one business day. We look forward to connecting with you.</p>
+          <p style="margin:0 0 28px;font-size:15px;color:#475569;line-height:1.75;">Thank you for applying to Accucare. We have received your application and a member of our team will be in touch within one business day.</p>
 
           <!-- Summary box -->
           <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #E2E8EF;border-top:4px solid #CC2229;border-radius:0 0 6px 6px;margin-bottom:32px;">
@@ -235,7 +235,7 @@ exports.handler = async (event) => {
             </td></tr>
           </table>
 
-          <p style="margin:0 0 18px;font-size:15px;color:#475569;">Have a question in the meantime?</p>
+          <p style="margin:0 0 18px;font-size:15px;color:#475569;">If you have questions in the meantime, feel free to give us a call.</p>
           <a href="tel:7137779969" style="display:inline-block;background:#CC2229;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;padding:14px 32px;border-radius:6px;">Call (713) 777-9969</a>
 
         </td></tr>

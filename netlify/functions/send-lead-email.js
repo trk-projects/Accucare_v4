@@ -28,7 +28,7 @@ exports.handler = async (event) => {
     : 'N/A';
 
   // Update this URL once the custom domain is connected
-  const LOGO_URL = 'https://accucare.netlify.app/brandTheme/AccuCare%20logo.PNG';
+  const LOGO_URL = 'https://accucare.netlify.app/brandTheme/accucare-logo-email.png';
 
   function field(label, value, isLink) {
     const display = value || 'N/A';

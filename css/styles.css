@@ -2589,3 +2589,48 @@ p {
   .lead-modal__body { padding: 20px 20px 24px; }
   .lead-modal__form .form__row { grid-template-columns: 1fr; gap: 0; }
 }
+
+/* ── Mission & Vision ─────────────────────────────────────── */
+.mv-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+.mv-card {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.mv-card__label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 1.25rem;
+}
+
+.mv-card blockquote {
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+  font-style: italic;
+  line-height: 1.65;
+  color: white;
+  flex: 1;
+}
+
+@media (max-width: 767px) {
+  .mv-grid {
+    grid-template-columns: 1fr;
+  }
+}

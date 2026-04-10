@@ -27,110 +27,160 @@ exports.handler = async (event) => {
     ? new Date(submitted_at).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true })
     : 'N/A';
 
+  // Update this URL once the custom domain is connected
+  const LOGO_URL = 'https://accucare.netlify.app/brandTheme/AccuCare%20logo.PNG';
+
+  function field(label, value, isLink) {
+    const display = value || 'N/A';
+    const content = isLink && value
+      ? `<a href="${isLink}" class="field-link" style="color:#1B3068;font-weight:600;text-decoration:none;font-size:15px;">${display}</a>`
+      : `<span class="field-val" style="font-size:15px;font-weight:600;color:#0f172a;">${display}</span>`;
+    return `
+      <tr>
+        <td style="padding:14px 20px;border-bottom:1px solid #e2e8f0;background-color:#ffffff;">
+          <p style="margin:0 0 4px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CC2229;">${label}</p>
+          ${content}
+        </td>
+      </tr>`;
+  }
+
   /* ── Internal notification to Accucare ── */
   const internalHtml = `
 <!DOCTYPE html>
-<html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#EEF2F8;font-family:'Helvetica Neue',Arial,sans-serif;">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="supported-color-schemes" content="light">
+  <title>New Staffing Request</title>
+  <style>
+    :root { color-scheme: light; }
+    body { margin: 0; padding: 0; background-color: #f0f4f8 !important; }
+    [data-ogsc] body, [data-ogsc] .email-bg { background-color: #f0f4f8 !important; }
+    [data-ogsc] .email-card { background-color: #ffffff !important; }
+    [data-ogsc] .email-header { background-color: #1B3068 !important; }
+    [data-ogsc] .email-footer { background-color: #0e1e44 !important; }
+    [data-ogsc] .email-logo-bar { background-color: #ffffff !important; }
+    [data-ogsc] .field-row { background-color: #ffffff !important; }
+    [data-ogsc] .body-text { color: #334155 !important; }
+    [data-ogsc] .strong-text { color: #0f172a !important; }
+    @media only screen and (max-width: 620px) {
+      .email-wrapper { width: 100% !important; }
+      .email-pad { padding-left: 24px !important; padding-right: 24px !important; }
+      .btn-group td { display: block !important; text-align: center !important; padding-bottom: 8px !important; }
+    }
+    @media (prefers-color-scheme: dark) {
+      body, .email-bg { background-color: #0d1117 !important; }
+      .email-header { background-color: #1B3068 !important; }
+      .header-eyebrow { color: rgba(255,255,255,0.85) !important; }
+      .header-sub { color: rgba(255,255,255,0.92) !important; }
+      .header-meta { color: rgba(255,255,255,0.75) !important; }
+      .email-logo-bar { background-color: #161b22 !important; border-bottom-color: #30363d !important; }
+      .email-card { background-color: #161b22 !important; }
+      .field-row td { background-color: #161b22 !important; border-bottom-color: #30363d !important; }
+      .field-val { color: #e6edf3 !important; }
+      .field-link { color: #58a6ff !important; }
+      .body-text { color: #8b949e !important; }
+      .strong-text { color: #e6edf3 !important; }
+      .message-box { background-color: #161b22 !important; }
+      .message-box td { background-color: #161b22 !important; }
+      .call-btn { background-color: #161b22 !important; color: #58a6ff !important; border-color: #58a6ff !important; }
+    }
+  </style>
+</head>
+<body style="margin:0;padding:0;background-color:#f0f4f8;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;" class="email-bg">
 
-  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#EEF2F8;">
-    <tr><td style="padding:32px 0 0;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f0f4f8;" class="email-bg">
+    <tr><td align="center" style="padding:32px 16px 48px;">
 
-      <!-- Header -->
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:linear-gradient(135deg,#1B3068 0%,#0e1e44 100%);">
+      <table class="email-wrapper" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);">
+
+        <!-- Logo bar -->
         <tr>
-          <td style="padding:40px 48px 32px;">
-            <p style="margin:0 0 6px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);">Accucare Nurse Staffing</p>
-            <h1 style="margin:0 0 6px;font-size:30px;font-weight:400;color:#ffffff;line-height:1.2;font-family:Georgia,'Times New Roman',serif;">New Staffing Request</h1>
-            <p style="margin:0;font-size:13px;color:rgba(255,255,255,0.55);">Received ${submittedFormatted}</p>
-          </td>
-          <td style="padding:40px 48px 32px;text-align:right;vertical-align:middle;">
-            <span style="display:inline-block;background:#CC2229;color:#ffffff;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 16px;border-radius:6px;">${service || 'Not specified'}</span>
+          <td style="background-color:#ffffff;padding:24px 40px;border-bottom:1px solid #e2e8f0;" class="email-logo-bar">
+            <img src="${LOGO_URL}" alt="Accucare Nurse Staffing" width="160" style="display:block;height:auto;max-height:48px;object-fit:contain;" />
           </td>
         </tr>
-      </table>
 
-      <!-- Red accent bar -->
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#CC2229;">
-        <tr><td style="height:4px;"></td></tr>
-      </table>
-
-      <!-- Body -->
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;">
-        <tr><td style="padding:40px 48px 0;">
-          <p style="margin:0 0 24px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CC2229;">Contact Details</p>
-        </td></tr>
-
-        <!-- Row 1: Name + Location -->
+        <!-- Header -->
         <tr>
-          <td width="50%" style="padding:0 0 0 48px;vertical-align:top;">
-            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #E2E8EF;border-radius:6px;margin-bottom:12px;">
-              <tr><td style="padding:16px 20px;">
-                <p style="margin:0 0 5px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CC2229;">Name</p>
-                <p style="margin:0;font-size:16px;font-weight:600;color:#1A1A2E;">${name || 'N/A'}</p>
-              </td></tr>
-            </table>
-          </td>
-          <td width="50%" style="padding:0 48px 0 12px;vertical-align:top;">
-            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #E2E8EF;border-radius:6px;margin-bottom:12px;">
-              <tr><td style="padding:16px 20px;">
-                <p style="margin:0 0 5px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CC2229;">${facilityLabel}</p>
-                <p style="margin:0;font-size:16px;font-weight:600;color:#1A1A2E;">${facility || 'N/A'}</p>
-              </td></tr>
+          <td style="background-color:#1B3068;padding:36px 40px 30px;" class="email-header">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td style="vertical-align:middle;">
+                  <p class="header-eyebrow" style="margin:0 0 8px;font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.5);">New Request</p>
+                  <h1 style="margin:0;font-size:26px;font-weight:400;color:#ffffff;line-height:1.3;font-family:Georgia,'Times New Roman',serif;">New Staffing Request</h1>
+                  <p class="header-meta" style="margin:6px 0 0;font-size:13px;color:rgba(255,255,255,0.55);">${submittedFormatted}</p>
+                </td>
+                <td style="vertical-align:middle;text-align:right;padding-left:20px;white-space:nowrap;">
+                  <span style="display:inline-block;background-color:#CC2229;color:#ffffff;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:7px 14px;border-radius:20px;">${service || 'Not specified'}</span>
+                </td>
+              </tr>
             </table>
           </td>
         </tr>
 
-        <!-- Row 2: Email + Phone -->
+        <!-- Red accent bar -->
+        <tr><td style="background-color:#CC2229;height:4px;font-size:0;line-height:0;">&nbsp;</td></tr>
+
+        <!-- Body -->
         <tr>
-          <td width="50%" style="padding:0 0 0 48px;vertical-align:top;">
-            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #E2E8EF;border-radius:6px;margin-bottom:12px;">
-              <tr><td style="padding:16px 20px;">
-                <p style="margin:0 0 5px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CC2229;">Email</p>
-                <p style="margin:0;font-size:15px;"><a href="mailto:${email}" style="color:#1B3068;font-weight:600;text-decoration:none;">${email || 'N/A'}</a></p>
-              </td></tr>
-            </table>
+          <td style="background-color:#ffffff;padding:36px 40px 0;" class="email-card email-pad">
+            <p style="margin:0 0 20px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CC2229;">Contact Details</p>
           </td>
-          <td width="50%" style="padding:0 48px 0 12px;vertical-align:top;">
-            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #E2E8EF;border-radius:6px;margin-bottom:12px;">
-              <tr><td style="padding:16px 20px;">
-                <p style="margin:0 0 5px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CC2229;">Phone</p>
-                <p style="margin:0;font-size:15px;"><a href="tel:${phone}" style="color:#1B3068;font-weight:600;text-decoration:none;">${phone || 'N/A'}</a></p>
-              </td></tr>
+        </tr>
+
+        <tr>
+          <td style="background-color:#ffffff;padding:0 40px;" class="email-card email-pad">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;" class="field-row">
+              ${field('Name', name)}
+              ${field(facilityLabel, facility)}
+              ${field('Email', email, email ? `mailto:${email}` : null)}
+              ${field('Phone', phone, phone ? `tel:${phone}` : null)}
             </table>
           </td>
         </tr>
 
         ${message ? `
-        <!-- Message -->
-        <tr><td colspan="2" style="padding:8px 48px 0;">
-          <p style="margin:0 0 10px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CC2229;">Message</p>
-          <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #E2E8EF;border-left:4px solid #CC2229;border-radius:0 6px 6px 0;margin-bottom:12px;">
-            <tr><td style="padding:18px 20px;">
-              <p style="margin:0;font-size:15px;color:#475569;line-height:1.7;">${message}</p>
-            </td></tr>
-          </table>
-        </td></tr>
+        <tr>
+          <td style="background-color:#ffffff;padding:24px 40px 0;" class="email-card email-pad">
+            <p style="margin:0 0 12px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CC2229;">Message</p>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #e2e8f0;border-left:4px solid #CC2229;border-radius:0 8px 8px 0;background-color:#fafafa;" class="message-box">
+              <tr><td style="padding:18px 20px;background-color:#fafafa;" class="message-box">
+                <p style="margin:0;font-size:15px;color:#334155;line-height:1.75;" class="body-text">${message}</p>
+              </td></tr>
+            </table>
+          </td>
+        </tr>
         ` : ''}
 
         <!-- Action buttons -->
-        <tr><td colspan="2" style="padding:32px 48px 44px;text-align:center;">
-          <a href="mailto:${email}?subject=Re: Your Staffing Request" style="display:inline-block;background:#CC2229;color:#ffffff;font-size:14px;font-weight:600;text-decoration:none;padding:14px 30px;border-radius:6px;margin:4px;">Reply to ${firstName}</a>
-          <a href="tel:${phone}" style="display:inline-block;background:#ffffff;color:#1B3068;font-size:14px;font-weight:600;text-decoration:none;padding:12px 30px;border-radius:6px;margin:4px;border:2px solid #1B3068;">Call ${firstName}</a>
-        </td></tr>
-      </table>
+        <tr>
+          <td style="background-color:#ffffff;padding:32px 40px 40px;text-align:center;" class="email-card email-pad">
+            <table cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;" class="btn-group">
+              <tr>
+                <td style="padding-right:8px;">
+                  <a href="mailto:${email}?subject=Re: Your Staffing Request" style="display:inline-block;background-color:#CC2229;color:#ffffff;font-size:14px;font-weight:600;text-decoration:none;padding:13px 28px;border-radius:6px;">Reply to ${firstName}</a>
+                </td>
+                <td style="padding-left:8px;">
+                  <a href="tel:${phone}" class="call-btn" style="display:inline-block;background-color:#ffffff;color:#1B3068;font-size:14px;font-weight:600;text-decoration:none;padding:11px 28px;border-radius:6px;border:2px solid #1B3068;">Call ${firstName}</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
 
-      <!-- Footer -->
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0e1e44;">
-        <tr><td style="padding:20px 48px;text-align:center;">
-          <p style="margin:0 0 4px;font-size:13px;font-weight:600;color:#ffffff;font-family:Georgia,'Times New Roman',serif;">Accucare Nurse Staffing</p>
-          <p style="margin:0;font-size:11px;color:rgba(255,255,255,0.45);">Sent by TRK Agency &nbsp;&bull;&nbsp; <a href="${source_page || 'https://accucarenursestaffing.com'}" style="color:rgba(255,255,255,0.45);text-decoration:underline;">View source page</a></p>
-        </td></tr>
-      </table>
+        <!-- Footer -->
+        <tr>
+          <td style="background-color:#0e1e44;padding:22px 40px;text-align:center;" class="email-footer">
+            <p style="margin:0 0 4px;font-size:13px;font-weight:600;color:#ffffff;letter-spacing:0.5px;">Accucare Nurse Staffing</p>
+            <p style="margin:0;font-size:11px;color:rgba(255,255,255,0.45);">Sent by TRK Agency &nbsp;&bull;&nbsp; <a href="${source_page || 'https://accucare.netlify.app'}" style="color:rgba(255,255,255,0.45);text-decoration:underline;">View source page</a></p>
+          </td>
+        </tr>
 
+      </table>
     </td></tr>
-    <tr><td style="height:32px;"></td></tr>
   </table>
 
 </body>
@@ -139,59 +189,102 @@ exports.handler = async (event) => {
   /* ── Confirmation email to the lead ── */
   const confirmHtml = `
 <!DOCTYPE html>
-<html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#EEF2F8;font-family:'Helvetica Neue',Arial,sans-serif;">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="supported-color-schemes" content="light">
+  <title>We received your request</title>
+  <style>
+    :root { color-scheme: light; }
+    body { margin: 0; padding: 0; background-color: #f0f4f8 !important; }
+    [data-ogsc] body, [data-ogsc] .email-bg { background-color: #f0f4f8 !important; }
+    [data-ogsc] .email-card { background-color: #ffffff !important; }
+    [data-ogsc] .email-header { background-color: #1B3068 !important; }
+    [data-ogsc] .email-footer { background-color: #0e1e44 !important; }
+    [data-ogsc] .email-logo-bar { background-color: #ffffff !important; }
+    [data-ogsc] .summary-box { background-color: #f8fafc !important; }
+    [data-ogsc] .body-text { color: #334155 !important; }
+    [data-ogsc] .strong-text { color: #0f172a !important; }
+    @media only screen and (max-width: 620px) {
+      .email-wrapper { width: 100% !important; }
+      .email-pad { padding-left: 24px !important; padding-right: 24px !important; }
+    }
+    @media (prefers-color-scheme: dark) {
+      body, .email-bg { background-color: #0d1117 !important; }
+      .email-header { background-color: #1B3068 !important; }
+      .header-eyebrow { color: rgba(255,255,255,0.85) !important; }
+      .header-sub { color: rgba(255,255,255,0.92) !important; }
+      .email-logo-bar { background-color: #161b22 !important; border-bottom-color: #30363d !important; }
+      .email-card { background-color: #161b22 !important; }
+      .body-text { color: #8b949e !important; }
+      .strong-text { color: #e6edf3 !important; }
+      .summary-box, .summary-box td { background-color: #161b22 !important; border-color: #30363d !important; }
+    }
+  </style>
+</head>
+<body style="margin:0;padding:0;background-color:#f0f4f8;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;" class="email-bg">
 
-  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#EEF2F8;">
-    <tr><td style="padding:32px 0 0;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f0f4f8;" class="email-bg">
+    <tr><td align="center" style="padding:32px 16px 48px;">
 
-      <!-- Header -->
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:linear-gradient(135deg,#1B3068 0%,#0e1e44 100%);">
-        <tr><td style="padding:44px 48px 36px;">
-          <p style="margin:0 0 6px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);">Accucare Nurse Staffing</p>
-          <h1 style="margin:0 0 10px;font-size:28px;font-weight:400;color:#ffffff;line-height:1.2;font-family:Georgia,'Times New Roman',serif;">We received your request, ${firstName}.</h1>
-          <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.65);line-height:1.6;">Someone from our team will be in touch with you shortly. For urgent needs, we are available by phone at any hour.</p>
-        </td></tr>
+      <table class="email-wrapper" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);">
+
+        <!-- Logo bar -->
+        <tr>
+          <td style="background-color:#ffffff;padding:24px 40px;border-bottom:1px solid #e2e8f0;" class="email-logo-bar">
+            <img src="${LOGO_URL}" alt="Accucare Nurse Staffing" width="160" style="display:block;height:auto;max-height:48px;object-fit:contain;" />
+          </td>
+        </tr>
+
+        <!-- Header -->
+        <tr>
+          <td style="background-color:#1B3068;padding:40px 40px 34px;" class="email-header email-pad">
+            <p class="header-eyebrow" style="margin:0 0 10px;font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.5);">Accucare Nurse Staffing</p>
+            <h1 style="margin:0 0 12px;font-size:26px;font-weight:400;color:#ffffff;line-height:1.3;font-family:Georgia,'Times New Roman',serif;">We received your request, ${firstName}.</h1>
+            <p class="header-sub" style="margin:0;font-size:15px;color:rgba(255,255,255,0.7);line-height:1.65;">Someone from our team will be in touch shortly. For urgent needs, we are available by phone at any hour.</p>
+          </td>
+        </tr>
+
+        <!-- Red accent bar -->
+        <tr><td style="background-color:#CC2229;height:4px;font-size:0;line-height:0;">&nbsp;</td></tr>
+
+        <!-- Body -->
+        <tr>
+          <td style="background-color:#ffffff;padding:36px 40px 0;" class="email-card email-pad">
+            <p style="margin:0 0 24px;font-size:15px;color:#334155;line-height:1.75;" class="body-text">Thank you for contacting Accucare. We have received your staffing request and a member of our team will follow up within one business hour during regular hours.</p>
+
+            <!-- Summary box -->
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #e2e8f0;border-top:4px solid #CC2229;border-radius:0 0 8px 8px;background-color:#f8fafc;" class="summary-box">
+              <tr><td style="padding:22px 24px;background-color:#f8fafc;" class="summary-box">
+                <p style="margin:0 0 14px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CC2229;">Your Request</p>
+                <p style="margin:0 0 8px;font-size:14px;color:#334155;" class="body-text"><strong style="color:#0f172a;" class="strong-text">Service:</strong> ${service || 'Not specified'}</p>
+                <p style="margin:0 0 8px;font-size:14px;color:#334155;" class="body-text"><strong style="color:#0f172a;" class="strong-text">${facilityLabel}:</strong> ${facility || 'N/A'}</p>
+                <p style="margin:0;font-size:14px;color:#334155;" class="body-text"><strong style="color:#0f172a;" class="strong-text">Submitted:</strong> ${submittedFormatted}</p>
+              </td></tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- CTA -->
+        <tr>
+          <td style="background-color:#ffffff;padding:28px 40px 40px;" class="email-card email-pad">
+            <p style="margin:0 0 18px;font-size:15px;color:#334155;" class="body-text">Prefer to speak with someone directly?</p>
+            <a href="tel:7137779969" style="display:inline-block;background-color:#CC2229;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;padding:13px 30px;border-radius:6px;">Call (713) 777-9969</a>
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td style="background-color:#0e1e44;padding:22px 40px;text-align:center;" class="email-footer">
+            <p style="margin:0 0 4px;font-size:13px;font-weight:600;color:#ffffff;letter-spacing:0.5px;">Accucare Nurse Staffing</p>
+            <p style="margin:0;font-size:11px;color:rgba(255,255,255,0.45);">9894 Bissonnet St, Suite 430, Houston TX 77036 &nbsp;&bull;&nbsp; (713) 777-9969</p>
+          </td>
+        </tr>
+
       </table>
-
-      <!-- Red accent bar -->
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#CC2229;">
-        <tr><td style="height:4px;"></td></tr>
-      </table>
-
-      <!-- Body -->
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;">
-        <tr><td style="padding:40px 48px;">
-
-          <p style="margin:0 0 28px;font-size:15px;color:#475569;line-height:1.75;">Thank you for contacting Accucare. We have received your staffing request and a member of our team will follow up within one business hour during regular hours.</p>
-
-          <!-- Summary box -->
-          <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #E2E8EF;border-top:4px solid #CC2229;border-radius:0 0 6px 6px;margin-bottom:32px;">
-            <tr><td style="padding:22px 24px;">
-              <p style="margin:0 0 14px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CC2229;">Your Request</p>
-              <p style="margin:0 0 8px;font-size:14px;color:#475569;"><strong style="color:#1A1A2E;">Service:</strong> ${service || 'Not specified'}</p>
-              <p style="margin:0 0 8px;font-size:14px;color:#475569;"><strong style="color:#1A1A2E;">${facilityLabel}:</strong> ${facility || 'N/A'}</p>
-              <p style="margin:0;font-size:14px;color:#475569;"><strong style="color:#1A1A2E;">Submitted:</strong> ${submittedFormatted}</p>
-            </td></tr>
-          </table>
-
-          <p style="margin:0 0 18px;font-size:15px;color:#475569;">Prefer to speak with someone directly?</p>
-          <a href="tel:7137779969" style="display:inline-block;background:#CC2229;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;padding:14px 32px;border-radius:6px;">Call (713) 777-9969</a>
-
-        </td></tr>
-      </table>
-
-      <!-- Footer -->
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0e1e44;">
-        <tr><td style="padding:24px 48px;text-align:center;">
-          <p style="margin:0 0 4px;font-size:13px;font-weight:600;color:#ffffff;font-family:Georgia,'Times New Roman',serif;">Accucare Nurse Staffing</p>
-          <p style="margin:0;font-size:11px;color:rgba(255,255,255,0.45);">9894 Bissonnet St, Suite 430, Houston TX 77036 &nbsp;&bull;&nbsp; (713) 777-9969</p>
-        </td></tr>
-      </table>
-
     </td></tr>
-    <tr><td style="height:32px;"></td></tr>
   </table>
 
 </body>

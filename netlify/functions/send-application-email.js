@@ -342,9 +342,9 @@ exports.handler = async (event) => {
   };
 
   const emailPayload = {
-    from:     'TRK Team <donotreply@trkaiagency.com>',
-    reply_to: email || 'tanush@trkaiagency.com',
-    to:       ['tanush@trkaiagency.com'],
+    from:     'Accucare Nurse Staffing <noreply@accucarestaffing.com>',
+    reply_to: email || 'seth.green@accucarestaffing.com',
+    to:       ['seth.green@accucarestaffing.com'],
     subject:  `New Applicant: ${fullName} — ${role || 'Job Application'}`,
     html:     internalHtml
   };
@@ -374,7 +374,7 @@ exports.handler = async (event) => {
           method: 'POST',
           headers: resendHeaders,
           body: JSON.stringify({
-            from:    'Accucare Nurse Staffing <donotreply@trkaiagency.com>',
+            from:    'Accucare Nurse Staffing <noreply@accucarestaffing.com>',
             to:      [email],
             subject: 'We received your application — Accucare Nurse Staffing',
             html:    confirmHtml

@@ -5,12 +5,6 @@
 (function () {
   'use strict';
 
-  /* ----------------------------------------------------------------
-   * Power Automate Webhook
-   * Replace the URL below with your Power Automate HTTP trigger URL.
-   * Flow: HTTP trigger → Add row to Excel Online → Send Outlook email.
-   * ---------------------------------------------------------------- */
-  var POWER_AUTOMATE_WEBHOOK = 'YOUR_POWER_AUTOMATE_WEBHOOK_URL_HERE';
   var SEND_LEAD_API = '/.netlify/functions/send-lead-email';
   var SEND_APPLICATION_API = '/.netlify/functions/send-application-email';
 
@@ -323,14 +317,6 @@
         })
         .catch(function () { showModalError(); });
 
-      // Log to Excel via Power Automate (fire-and-forget, when configured)
-      if (POWER_AUTOMATE_WEBHOOK && POWER_AUTOMATE_WEBHOOK !== 'YOUR_POWER_AUTOMATE_WEBHOOK_URL_HERE') {
-        fetch(POWER_AUTOMATE_WEBHOOK, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        }).catch(function () {});
-      }
     });
 
     function showModalSuccess() {

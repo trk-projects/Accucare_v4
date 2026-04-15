@@ -346,6 +346,72 @@ p {
   height: 15px;
 }
 
+/* Nav Social Icons */
+.nav__socials {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.nav__social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  color: white;
+  transition: opacity 0.2s, transform 0.15s;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.nav__social-link:hover {
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+
+.nav__social-link svg {
+  width: 14px;
+  height: 14px;
+}
+
+.nav__social-link--linkedin { background: #0077B5; }
+.nav__social-link--indeed   { background: #2557A7; }
+
+/* Footer Social Icons */
+.footer__socials {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.footer__social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 7px;
+  color: white;
+  transition: opacity 0.2s, transform 0.15s;
+  text-decoration: none;
+}
+
+.footer__social-link:hover {
+  opacity: 0.8;
+  transform: translateY(-2px);
+}
+
+.footer__social-link svg {
+  width: 16px;
+  height: 16px;
+}
+
+.footer__social-link--linkedin { background: #0077B5; }
+.footer__social-link--indeed   { background: #2557A7; }
+
 /* Hamburger */
 .nav__hamburger {
   display: none;

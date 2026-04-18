@@ -380,8 +380,8 @@ exports.handler = async (event) => {
     subject: `New Applicant: ${fullName} — ${role || 'Job Application'}`,
     body: { contentType: 'HTML', content: internalHtml },
     from: { emailAddress: { name: 'Accucare Nurse Staffing', address: SENDER } },
-    toRecipients: [{ emailAddress: { address: 'seth.green@accucarestaffing.com' } }],
-    replyTo: [{ emailAddress: { address: email || 'seth.green@accucarestaffing.com' } }]
+    toRecipients: [{ emailAddress: { address: 'careers@accucarestaffing.com' } }],
+    replyTo: [{ emailAddress: { address: email || 'careers@accucarestaffing.com' } }]
   };
 
   if (resume_content && resume_filename) {

@@ -342,8 +342,8 @@ exports.handler = async (event) => {
       subject: `New Lead: ${name || 'Unknown'} — ${service || 'Staffing Request'}`,
       body: { contentType: 'HTML', content: internalHtml },
       from: { emailAddress: { name: 'Accucare Nurse Staffing', address: SENDER } },
-      toRecipients: [{ emailAddress: { address: 'seth.green@accucarestaffing.com' } }],
-      replyTo: [{ emailAddress: { address: email || 'seth.green@accucarestaffing.com' } }]
+      toRecipients: [{ emailAddress: { address: 'contact@accucarestaffing.com' } }],
+      replyTo: [{ emailAddress: { address: email || 'contact@accucarestaffing.com' } }]
     });
 
     console.log('[send-lead-email] Internal notification sent OK');

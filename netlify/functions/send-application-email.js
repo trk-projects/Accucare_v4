@@ -15,8 +15,46 @@ exports.handler = async (event) => {
     return { statusCode: 405, headers: corsHeaders, body: 'Method Not Allowed' };
   }
 
-  if (!process.env.RESEND_API_KEY) {
-    return { statusCode: 500, headers: corsHeaders, body: JSON.stringify({ error: 'RESEND_API_KEY not configured.' }) };
+  const { MS_TENANT_ID, MS_CLIENT_ID, MS_CLIENT_SECRET } = process.env;
+  if (!MS_TENANT_ID || !MS_CLIENT_ID || !MS_CLIENT_SECRET) {
+    return { statusCode: 500, headers: corsHeaders, body: JSON.stringify({ error: 'Microsoft 365 credentials not configured.' }) };
+  }
+
+  async function getAccessToken() {
+    const res = await fetch(
+      `https://login.microsoftonline.com/${MS_TENANT_ID}/oauth2/v2.0/token`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          grant_type: 'client_credentials',
+          client_id: MS_CLIENT_ID,
+          client_secret: MS_CLIENT_SECRET,
+          scope: 'https://graph.microsoft.com/.default'
+        })
+      }
+    );
+    const data = await res.json();
+    if (!res.ok) throw new Error(`Token error: ${data.error_description || data.error}`);
+    return data.access_token;
+  }
+
+  async function sendMail(accessToken, senderEmail, message) {
+    const res = await fetch(
+      `https://graph.microsoft.com/v1.0/users/${senderEmail}/sendMail`,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ message })
+      }
+    );
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(`Graph API error: ${JSON.stringify(err)}`);
+    }
   }
 
   const { firstname, lastname, email, phone, role, licensed, bgcheck, drugtest, workauth, sponsorship, experience, startdate, resume_filename, resume_content, submitted_at, source_page } = JSON.parse(event.body || '{}');
@@ -336,56 +374,46 @@ exports.handler = async (event) => {
 </body>
 </html>`;
 
-  const resendHeaders = {
-    'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-    'Content-Type': 'application/json'
-  };
+  const SENDER = 'careers@accucarestaffing.com';
 
-  const emailPayload = {
-    from:     'Accucare Nurse Staffing <noreply@accucarestaffing.com>',
-    reply_to: email || 'seth.green@accucarestaffing.com',
-    to:       ['seth.green@accucarestaffing.com'],
-    subject:  `New Applicant: ${fullName} — ${role || 'Job Application'}`,
-    html:     internalHtml
+  const internalMessage = {
+    subject: `New Applicant: ${fullName} — ${role || 'Job Application'}`,
+    body: { contentType: 'HTML', content: internalHtml },
+    from: { emailAddress: { name: 'Accucare Nurse Staffing', address: SENDER } },
+    toRecipients: [{ emailAddress: { address: 'seth.green@accucarestaffing.com' } }],
+    replyTo: [{ emailAddress: { address: email || 'seth.green@accucarestaffing.com' } }]
   };
 
   if (resume_content && resume_filename) {
-    emailPayload.attachments = [{ filename: resume_filename, content: resume_content }];
+    internalMessage.attachments = [{
+      '@odata.type': '#microsoft.graph.fileAttachment',
+      name: resume_filename,
+      contentBytes: resume_content,
+      contentType: 'application/octet-stream'
+    }];
   }
 
   try {
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: resendHeaders,
-      body: JSON.stringify(emailPayload)
-    });
+    const accessToken = await getAccessToken();
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      console.error('Resend error:', data);
-      return { statusCode: 500, headers: corsHeaders, body: JSON.stringify({ error: 'Failed to send email.', detail: data }) };
-    }
+    // Send internal notification
+    await sendMail(accessToken, SENDER, internalMessage);
 
     // Send confirmation to applicant
     if (email) {
       try {
-        await fetch('https://api.resend.com/emails', {
-          method: 'POST',
-          headers: resendHeaders,
-          body: JSON.stringify({
-            from:    'Accucare Nurse Staffing <noreply@accucarestaffing.com>',
-            to:      [email],
-            subject: 'We received your application — Accucare Nurse Staffing',
-            html:    confirmHtml
-          })
+        await sendMail(accessToken, SENDER, {
+          subject: 'We received your application — Accucare Nurse Staffing',
+          body: { contentType: 'HTML', content: confirmHtml },
+          from: { emailAddress: { name: 'Accucare Nurse Staffing', address: SENDER } },
+          toRecipients: [{ emailAddress: { address: email } }]
         });
       } catch (err) {
         console.error('Confirm email error:', err.message);
       }
     }
 
-    return { statusCode: 200, headers: corsHeaders, body: JSON.stringify({ ok: true, id: data.id }) };
+    return { statusCode: 200, headers: corsHeaders, body: JSON.stringify({ ok: true }) };
 
   } catch (err) {
     console.error('Function error:', err.message);
